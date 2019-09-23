@@ -223,3 +223,29 @@ lines(seq(0.05, 0.95, 0.1), seq(0.05, 0.95, 0.1), lwd=2, lty=1, col='grey50')
 hist(l10$Predicted)
 
 #saveRDS(bn_tan_fit, 'bn_tan_fit_210819.rds')
+
+#-------------------
+# rasff_data_display
+#-------------------
+## takes ~37 minutes.
+# start <- Sys.time()
+# probs <- vector()
+# for (i in 1:dim(d_analysis_cropped)[1]){
+#   Sys.sleep(0.01)
+#   print(paste0(round(100*i/dim(d_analysis)[1],2), '% done'))
+#   probs[i] <- mean(
+#     #replicate(100,
+#     cpquery(fitted=bn_tan_fit, 
+#             event=(uk_rasff_soon=='1'),
+#             evidence=(as.list(d_analysis_cropped[i,c(-7)])), # index used here
+#             method='lw',
+#             n=1e5)
+#     #)
+#   )
+# }
+# end <- Sys.time(); end-start
+# 
+# rasff_data_display <- d_analysis
+# rasff_data_display$probability <- probs
+# 
+# saveRDS(rasff_data_display, 'rasff_data_display_full.rds')
