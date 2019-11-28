@@ -1,5 +1,11 @@
-# non-UK-RASFFs
-Analysis of non-UK RASFFs in relation to subsequent UK RASFFs
+# non-UK RASFFs
+
+## Background
+The Rapid Alert System for Food and Feed (RASFF) system is made up of alerts about food and feed risks. Knowledge of how non-UK RASFFs (*i.e.* those that ar not raised by the UK, or do not list it as a country a given product is distributed to) relate to coming UK RASFFs is valuable to colleagues processing alerts.
+
+This project collaborated with experts who use the RASFF system as part of their work. From their input about relevant factors, and how these may interrelate, a Bayesian network was constructed. Conditional probability tables were created using historic RASFF data. 
+
+## Technologies
 
 # Licence
 
