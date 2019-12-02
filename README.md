@@ -8,7 +8,7 @@ The project was a collaboration with experts, who use the RASFF system in their 
 
 ## Technologies
 - R 3.6.0
-    - Packages: [tidyverse](https://www.tidyverse.org/), [bnlearn](http://www.bnlearn.com/), [Shiny](https://shiny.rstudio.com/) 
+    - Packages: [Tidyverse](https://www.tidyverse.org/), [bnlearn](http://www.bnlearn.com/), [Shiny](https://shiny.rstudio.com/) 
 
 
 # Licence
