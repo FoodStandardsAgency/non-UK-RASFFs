@@ -1,13 +1,15 @@
 # non-UK RASFFs
 
 ## Background
-The Rapid Alert System for Food and Feed (RASFF) system is made up of alerts about food and feed risks. Knowledge of how non-UK RASFFs (*i.e.* those that ar not raised by the UK, or do not list it as a country a given product is distributed to) relate to coming UK RASFFs is valuable to colleagues processing alerts.
+The Rapid Alert System for Food and Feed (RASFF) consists of alerts raised by several countries. While some of these alerts are either raised by the UK, or list it as a country at risk, many do not (non-UK RASFFs). This project began with the idea that non-UK RASFFs may still be informative of imminent UK issues.
 
-This project collaborated with experts who use the RASFF system as part of their work. From their input about relevant factors, and how these may interrelate, a Bayesian network was constructed. Conditional probability tables were created using historic RASFF data. 
+The project was a collaboration with experts, who use the RASFF system in their daily work, and data scientists. A Bayesian network was built which linked to RASFFs to the probability for a UK RASFF in the near future. An [interactive dashboard]( https://foodstandards.shinyapps.io/nonuk_rasffs/) was then prototyped. 
+
 
 ## Technologies
 - R 3.6.0
     - Packages: [tidyverse](https://www.tidyverse.org/), [bnlearn](http://www.bnlearn.com/), [Shiny](https://shiny.rstudio.com/) 
+
 
 # Licence
 
