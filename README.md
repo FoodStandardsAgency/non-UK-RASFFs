@@ -6,6 +6,8 @@ The Rapid Alert System for Food and Feed (RASFF) system is made up of alerts abo
 This project collaborated with experts who use the RASFF system as part of their work. From their input about relevant factors, and how these may interrelate, a Bayesian network was constructed. Conditional probability tables were created using historic RASFF data. 
 
 ## Technologies
+- R 3.6.0
+    - Packages: [tidyverse](https://www.tidyverse.org/), [bnlearn](http://www.bnlearn.com/), [Shiny](https://shiny.rstudio.com/) 
 
 # Licence
 
