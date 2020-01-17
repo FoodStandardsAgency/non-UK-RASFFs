@@ -9,11 +9,11 @@ load_rasffs <- function(columns='*', table=''){
       conn=con,
       statement= paste0(
         'SELECT ', columns, ' FROM [SPRINT_RiskyFoods].[dbo].[', table, ']'
+        )
       )
     )
-  )
   return(data_tibble)
-}
+  }
 
 
 
