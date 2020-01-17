@@ -1,20 +1,20 @@
 # Non-UK RASFF helpers.
 library(tidyverse)
+# DB9_connection.R provides database access.
 
-# Database connection.
-con <- DBI::dbConnect(
-  odbc::odbc(),
-  Driver='SQL Server',
-  Database='TEST',
-  Server='VMP1WSQLDB9',
-  port=1433
+load_rasffs <- function(columns='*', table=''){
+  # The data dataframe.
+  data_tibble <- dplyr::as_tibble(
+    DBI::dbGetQuery(
+      conn=con,
+      statement= paste0(
+        'SELECT ', columns, ' FROM [SPRINT_RiskyFoods].[dbo].[', table, ']'
+      )
+    )
   )
+  return(data_tibble)
+}
 
-df_data_raw <- DBI::dbGetQuery(
-  conn=con,
-  statement='
-    SELECT *
-    FROM [SPRINT_RiskyFoods].[dbo].[rasff_data]
-  '
-  )
+
+
 
