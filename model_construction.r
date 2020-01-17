@@ -25,6 +25,7 @@ df_hazards_raw <- load_rasffs(
   )
 
 # Edit tables prior to amalgamating.
+## Identify origin countries.
 df_origins <- df_countries_raw %>%
   dplyr::filter(
     stringr::str_detect(
@@ -38,6 +39,17 @@ df_origins <- df_countries_raw %>%
       pattern=paste(c('\\(O\\)', '\\(D/O\\)'), collapse='|')
       )
     )
+## Identify UK distribution.
+df_dist_uk <- df_countries_raw %>%
+  dplyr::filter(
+    stringr::str_detect(
+      string=country,
+      pattern=paste(c('United Kingdom', 'UK'), collapse='|')
+      )
+    ) %>%
+  dplyr::filter(
+    stringr::str_detect(string=country, pattern='\\(O\\)', negate=T)
+    )
 
 # Create a full dataset.
 df_full_raw <- dplyr::left_join(
@@ -49,4 +61,11 @@ df_full_raw <- dplyr::left_join(
   dplyr::mutate(month=lubridate::month(date)) %>%
   dplyr::mutate(days_from_start=date - lubridate::ymd(19790101)) %>%
   dplyr::left_join(x=., y=unique(df_origins), by='reference') %>%
-  dplyr::rename(origin_country=country)
+  dplyr::rename(origin_country=country) %>%
+  dplyr::mutate(
+    dist_uk=dplyr::if_else(
+      condition=reference %in% df_dist_uk$reference,
+      true=dist_uk<-1,
+      false=dist_uk<-0)
+    ) %>%
+  dplyr::left_join(x=., y=unique(df_hazards_raw), by='reference')
