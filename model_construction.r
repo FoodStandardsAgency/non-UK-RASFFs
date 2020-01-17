@@ -2,6 +2,9 @@
 library(lubridate)
 source('helpers.r')
 
+# Number of days considered to be the near-term.
+days <- 28
+
 # Load the data.
 ## Columns to be collected.
 data_columns1 <- 'classification, dateOfCase, reference, notifyingCountry,'
@@ -68,4 +71,12 @@ df_full_raw <- dplyr::left_join(
       true=dist_uk<-1,
       false=dist_uk<-0)
     ) %>%
-  dplyr::left_join(x=., y=unique(df_hazards_raw), by='reference')
+  dplyr::left_join(x=., y=unique(df_hazards_raw), by='reference') %>%
+  dplyr::mutate(uk_report_soon=0)
+
+# Find the UK report days and  associated near-term window.
+df_uk_report_days <- df_full_raw %>%
+  dplyr::filter(notifyingCountry=='United Kingdom') %>%
+  dplyr::select(productCategory, days_from_start) %>%
+  dplyr::mutate(days_before=days_from_start - days)
+dates_near_uk_rasff <- c()
