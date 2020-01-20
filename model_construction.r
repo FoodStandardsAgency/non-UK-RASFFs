@@ -94,7 +94,7 @@ for (r in 1:dim(df_uk_report_days)[1]){
   references_uk_soon <- c(references_uk_soon,
                           dplyr::pull(df_filter, var=reference))
 }
-# Mutate uk_report_soon to reflect imminent UK RASFFs and filter out
+# Mutate uk_report_soon to reflect imminent UK RASFFs and filter out.
 df_full <- dplyr::mutate(
   df_full, uk_report_soon=dplyr::if_else(
     condition=df_full$reference%in%references_uk_soon,
@@ -102,7 +102,7 @@ df_full <- dplyr::mutate(
     false=df_full$uk_report_soon<-0
     )
   )
-# Re-order the columns in the dataframe
+# Re-order the columns in the dataframe.
 col_order <- c(
   'reference', 'dateOfCase', 'date', 'month', 'days_from_start','subject',
   'type', 'classification', 'productCategory', 'product', 'hazard',
@@ -110,4 +110,6 @@ col_order <- c(
   'dist_uk'
   )
 df_full <- df_full[, col_order]
-# Explore the data.
+# Fit a Bayesian network.
+df_features <- df_full %>%
+  
