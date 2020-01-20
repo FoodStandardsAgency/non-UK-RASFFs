@@ -105,11 +105,28 @@ df_full <- dplyr::mutate(
 # Re-order the columns in the dataframe.
 col_order <- c(
   'reference', 'dateOfCase', 'date', 'month', 'days_from_start','subject',
-  'type', 'classification', 'productCategory', 'product', 'hazard',
-  'hazardType', 'uk_report_soon', 'notifyingCountry', 'origin_country',
+  'type', 'classification', 'productCategory', 'product', 'hazardType',
+  'hazard', 'uk_report_soon', 'notifyingCountry', 'origin_country',
   'dist_uk'
   )
-df_full <- df_full[, col_order]
+df_full <- df_full[, col_order] %>%
+  dplyr::rename(date_of_case=dateOfCase) %>%
+  dplyr::rename(product_category=productCategory) %>%
+  dplyr::rename(hazard_type=hazardType) %>%
+  dplyr::rename(notifying_country=notifyingCountry)
 # Fit a Bayesian network.
 df_features <- df_full %>%
-  
+  dplyr::select(-c(reference, date_of_case, date, days_from_start)) %>%
+  dplyr::mutate(month=as.factor(month)) %>%
+  dplyr::mutate(subject=as.factor(subject)) %>%
+  dplyr::mutate(type=as.factor(type)) %>%
+  dplyr::mutate(classification=as.factor(classification)) %>%
+  dplyr::mutate(product_category=as.factor(product_category)) %>%
+  dplyr::mutate(product=as.factor(product)) %>%
+  dplyr::mutate(hazard_type=as.factor(hazard_type)) %>%
+  dplyr::mutate(hazard=as.factor(hazard)) %>%
+  dplyr::mutate(uk_report_soon=as.factor(uk_report_soon)) %>%
+  dplyr::mutate(notifying_country=as.factor(notifying_country)) %>%
+  dplyr::mutate(origin_country=as.factor(origin_country)) %>%
+  dplyr::mutate(dist_uk=as.factor(dist_uk)) %>%
+  droplevels()
