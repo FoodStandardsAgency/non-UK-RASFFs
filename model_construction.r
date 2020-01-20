@@ -55,7 +55,7 @@ df_dist_uk <- df_countries_raw %>%
     )
 
 # Create a full dataset.
-df_full_raw <- dplyr::left_join(
+df_full <- dplyr::left_join(
   x=unique(df_data_raw),
   y=unique(df_details_raw),
   by='reference'
@@ -73,10 +73,41 @@ df_full_raw <- dplyr::left_join(
     ) %>%
   dplyr::left_join(x=., y=unique(df_hazards_raw), by='reference') %>%
   dplyr::mutate(uk_report_soon=0)
-
 # Find the UK report days and  associated near-term window.
-df_uk_report_days <- df_full_raw %>%
+df_uk_report_days <- df_full %>%
   dplyr::filter(notifyingCountry=='United Kingdom') %>%
-  dplyr::select(productCategory, days_from_start) %>%
+  dplyr::select(product, days_from_start) %>% # CHECK HERE!
   dplyr::mutate(days_before=days_from_start - days)
 dates_near_uk_rasff <- c()
+references_uk_soon <- c()
+for (r in 1:dim(df_uk_report_days)[1]){
+  df_filter <- df_full %>%
+    dplyr::filter(
+      product==df_uk_report_days$product[r]&
+        dplyr::between(
+          x=days_from_start,
+          left=df_uk_report_days$days_before[r], 
+          right=df_uk_report_days$days_from_start[r]
+          )
+      ) %>%
+    dplyr::mutate(df_uk_report_soon=1)
+  references_uk_soon <- c(references_uk_soon,
+                          dplyr::pull(df_filter, var=reference))
+}
+# Mutate uk_report_soon to reflect imminent UK RASFFs and filter out
+df_full <- dplyr::mutate(
+  df_full, uk_report_soon=dplyr::if_else(
+    condition=df_full$reference%in%references_uk_soon,
+    true=df_full$uk_report_soon<-1,
+    false=df_full$uk_report_soon<-0
+    )
+  )
+# Re-order the columns in the dataframe
+col_order <- c(
+  'reference', 'dateOfCase', 'date', 'month', 'days_from_start','subject',
+  'type', 'classification', 'productCategory', 'product', 'hazard',
+  'hazardType', 'uk_report_soon', 'notifyingCountry', 'origin_country',
+  'dist_uk'
+  )
+df_full <- df_full[, col_order]
+# Explore the data.
