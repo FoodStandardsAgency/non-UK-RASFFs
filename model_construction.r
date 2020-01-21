@@ -171,3 +171,5 @@ g_predicted <- predict(
   data=df_test
   )
 caret::confusionMatrix(data=g_predicted, reference=df_test$uk_rasff_soon)
+# Predicted probabilities vs actual outcome.
+

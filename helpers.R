@@ -25,8 +25,8 @@ estimate_probabilities <- function(
   ){
     probs <- c()
     for (r in 1:dim(data_frame)[1]){
-      per_cent_done <- round(100 * (r / dim(data_frame)[1]))
-      svMisc::progress(value=per_cent_done, progress.bar=F)
+      per_cent_done <- 100 * (r / dim(data_frame)[1])
+      svMisc::progress(value=per_cent_done, progress.bar=FALSE)
       p <- bnlearn::cpquery(
         fitted=bayesian_network,
         event=(uk_rasff_soon=='1'),
@@ -39,3 +39,13 @@ estimate_probabilities <- function(
     return(probs)
     }
 
+estimates_vs_reality <- function(estimates, reality){
+  df <- dplyr::tibble(estimates, reality) %>%
+    dplyr::mutate(estimates=round(estimates, digits=2)) %>%
+    dplyr::mutate(reality=as.numeric(reality)-1) %>%
+    dplyr::mutate(p_group=as.factor(estimates))
+  averages <- df %>%
+    group_by(p_group) %>% 
+    dplyr::summarise(Mean = mean(reality, na.rm=TRUE))
+  return(averages)
+  }
