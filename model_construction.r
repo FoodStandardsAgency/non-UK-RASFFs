@@ -160,16 +160,14 @@ g = bnlearn::set.arc(x=g, from='notifying_country', to='uk_rasff_soon')
 g = bnlearn::set.arc(x=g, from='hazard', to='uk_rasff_soon')
 bnviewer::viewer(bayesianNetwork=g)
 # Using strong prior.
-g_fitted_big = bnlearn::bn.fit(
+g_fitted = bnlearn::bn.fit(
   x=g, data=df_train,
   method='bayes',
   iss=25*dim(df_train)[1]
   )
-g_predicted_big <- predict(
-  g_fitted_big,
+g_predicted <- predict(
+  g_fitted,
   node='uk_rasff_soon', 
   data=df_test
   )
-caret::confusionMatrix(data=g_predicted_big, reference=df_test$uk_rasff_soon)
-
-
+caret::confusionMatrix(data=g_predicted, reference=df_test$uk_rasff_soon)
