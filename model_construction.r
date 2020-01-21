@@ -143,9 +143,10 @@ df_features <- df_full %>%
   droplevels()
 df_features <- data.frame(df_features)
 ## Create train and test sets.
-train_index <- sample(1:dim(df_features)[1], floor(dim(df_features)[1]*0.9))
+train_index <- sample(1:dim(df_features)[1], floor(dim(df_features)[1]*0.8))
 df_train <- df_features[train_index,]
 df_test <- df_features[-train_index,]
+df_test_subset <- df_test[sample(dim(df_test)[1], 2000), ]
 ## Manual structure based on expert knowledge.
 g = bnlearn::empty.graph(nodes=names(df_features))
 g = bnlearn::set.arc(x=g, from='month', to='origin_country')
@@ -159,7 +160,8 @@ g = bnlearn::set.arc(x=g, from='notifying_country', to='uk_rasff_soon')
 #g = bnlearn::set.arc(x=g, from='product', to='uk_rasff_soon')
 g = bnlearn::set.arc(x=g, from='hazard', to='uk_rasff_soon')
 bnviewer::viewer(bayesianNetwork=g)
-# UExploring differnet iss values.
+# Exploring differnet iss values.
+## iss = 1
 g1 = bnlearn::bn.fit(
   x=g, data=df_train,
   method='bayes',
@@ -172,11 +174,47 @@ g1_pred <- predict(
   )
 caret::confusionMatrix(data=g1_pred, reference=df_test$uk_rasff_soon)
 g1_ps<- estimate_probabilities(
-  data_frame=df_test, bayesian_network=g1, predict_column=6
+  data_frame=df_test_subset, bayesian_network=g1, predict_column=6
   )
 g1_comparison <- estimates_vs_reality(
-  estimates=g1_ps, reality=df_test$uk_rasff_soon)
+  estimates=g1_ps, reality=df_test_subset$uk_rasff_soon)
 g1_comparison_plot <- plot_estimates_vs_reality(data_frame=g1_comparison)
 g1_comparison_plot
-# Predicted probabilities vs actual outcome.
-
+## iss = 2
+g2 = bnlearn::bn.fit(
+  x=g, data=df_train,
+  method='bayes',
+  iss=2*dim(df_train)[1]
+  )
+g2_pred <- predict(
+  g2,
+  node='uk_rasff_soon', 
+  data=df_test
+  )
+caret::confusionMatrix(data=g2_pred, reference=df_test$uk_rasff_soon)
+g2_ps<- estimate_probabilities(
+  data_frame=df_test_subset, bayesian_network=g2, predict_column=6
+  )
+g2_comparison <- estimates_vs_reality(
+  estimates=g2_ps, reality=df_test_subset$uk_rasff_soon)
+g2_comparison_plot <- plot_estimates_vs_reality(data_frame=g2_comparison)
+g2_comparison_plot
+## iss = 5
+g5 = bnlearn::bn.fit(
+  x=g, data=df_train,
+  method='bayes',
+  iss=5*dim(df_train)[1]
+)
+g5_pred <- predict(
+  g5,
+  node='uk_rasff_soon', 
+  data=df_test
+  )
+caret::confusionMatrix(data=g5_pred, reference=df_test$uk_rasff_soon)
+g5_ps<- estimate_probabilities(
+  data_frame=df_test_subset, bayesian_network=g5, predict_column=6
+  )
+g5_comparison <- estimates_vs_reality(
+  estimates=g5_ps, reality=df_test_subset$uk_rasff_soon)
+g5_comparison_plot <- plot_estimates_vs_reality(data_frame=g5_comparison)
+g5_comparison_plot
