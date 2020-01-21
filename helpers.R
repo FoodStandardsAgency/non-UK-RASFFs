@@ -3,7 +3,6 @@ library(tidyverse)
 library(bnlearn)
 library(svMisc)
 source('ignore.r')
-# DB9_connection.R provides database access.
 
 
 load_rasffs <- function(columns='*', table=''){
