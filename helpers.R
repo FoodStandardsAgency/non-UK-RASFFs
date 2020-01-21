@@ -46,6 +46,18 @@ estimates_vs_reality <- function(estimates, reality){
     dplyr::mutate(p_group=as.factor(estimates))
   averages <- df %>%
     group_by(p_group) %>% 
-    dplyr::summarise(Mean = mean(reality, na.rm=TRUE))
+    dplyr::summarise(mean=mean(reality, na.rm=TRUE), n=n())
   return(averages)
+  }
+
+plot_estimates_vs_reality <- function(data_frame){
+  plt <- ggplot2::ggplot(
+    data=data_frame,
+    aes(x=as.numeric(as.character(data_frame$p_group)), y=data_frame$mean)
+  ) +
+    geom_line(lwd=2) +
+    xlab('Predicted Probability') +
+    ylab('Realised Proportion of Events') +
+  theme_bw() 
+  return(plt)
   }

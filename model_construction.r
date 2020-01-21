@@ -143,7 +143,7 @@ df_features <- df_full %>%
   droplevels()
 df_features <- data.frame(df_features)
 ## Create train and test sets.
-train_index <- sample(1:dim(df_features)[1], floor(dim(df_features)[1]*0.8))
+train_index <- sample(1:dim(df_features)[1], floor(dim(df_features)[1]*0.9))
 df_train <- df_features[train_index,]
 df_test <- df_features[-train_index,]
 ## Manual structure based on expert knowledge.
@@ -159,17 +159,23 @@ g = bnlearn::set.arc(x=g, from='notifying_country', to='uk_rasff_soon')
 #g = bnlearn::set.arc(x=g, from='product', to='uk_rasff_soon')
 g = bnlearn::set.arc(x=g, from='hazard', to='uk_rasff_soon')
 bnviewer::viewer(bayesianNetwork=g)
-# Using strong prior.
-g_fitted = bnlearn::bn.fit(
+# UExploring differnet iss values.
+g1 = bnlearn::bn.fit(
   x=g, data=df_train,
   method='bayes',
-  iss=25*dim(df_train)[1]
+  iss=1*dim(df_train)[1]
   )
-g_predicted <- predict(
-  g_fitted,
+g1_pred <- predict(
+  g1,
   node='uk_rasff_soon', 
   data=df_test
   )
-caret::confusionMatrix(data=g_predicted, reference=df_test$uk_rasff_soon)
+caret::confusionMatrix(data=g1_pred, reference=df_test$uk_rasff_soon)
+g1_ps<- estimate_probabilities(
+  data_frame=df_test, bayesian_network=g1, predict_column=6
+  )
+g1_comparison <- estimates_vs_reality(
+  estimates=g1_ps, reality=df_test$uk_rasff_soon)
+g1_comparison_plot <- plot_estimates_vs_reality(data_frame=g1_comparison)
 # Predicted probabilities vs actual outcome.
 
