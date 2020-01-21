@@ -46,7 +46,8 @@ estimates_vs_reality <- function(estimates, reality){
     dplyr::mutate(p_group=as.factor(estimates))
   averages <- df %>%
     group_by(p_group) %>% 
-    dplyr::summarise(mean=mean(reality, na.rm=TRUE), n=n())
+    dplyr::summarise(mean=mean(reality, na.rm=TRUE), n=n()) %>%
+    dplyr::filter(n >= 10)
   return(averages)
   }
 
@@ -55,7 +56,8 @@ plot_estimates_vs_reality <- function(data_frame){
     data=data_frame,
     aes(x=as.numeric(as.character(data_frame$p_group)), y=data_frame$mean)
   ) +
-    geom_line(lwd=2) +
+    geom_abline(intercept=0, slope=1, colour='grey50', linetype='dashed') +
+    geom_point(lwd=2) +
     xlab('Predicted Probability') +
     ylab('Realised Proportion of Events') +
   theme_bw() 

@@ -177,5 +177,6 @@ g1_ps<- estimate_probabilities(
 g1_comparison <- estimates_vs_reality(
   estimates=g1_ps, reality=df_test$uk_rasff_soon)
 g1_comparison_plot <- plot_estimates_vs_reality(data_frame=g1_comparison)
+g1_comparison_plot
 # Predicted probabilities vs actual outcome.
 
