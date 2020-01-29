@@ -79,18 +79,20 @@ df_full <- dplyr::left_join(
 # Find the UK report days and  associated near-term window.
 df_uk_report_days <- df_full %>%
   dplyr::filter(notifyingCountry=='United Kingdom') %>%
-  dplyr::select(product, days_from_start) %>% # CHECK HERE! days_from_start + 1
+  dplyr::select(product, origin_country, hazard, days_from_start) %>% 
   dplyr::mutate(days_before=days_from_start - days)
 dates_near_uk_rasff <- c()
 references_uk_soon <- c()
 for (r in 1:dim(df_uk_report_days)[1]){
   df_filter <- df_full %>%
     dplyr::filter(
-      product==df_uk_report_days$product[r]&
+      product == df_uk_report_days$product[r] &
+        origin_country == df_uk_report_days$origin_country[r] &
+        #hazard == df_uk_report_days$hazard &
         dplyr::between(
           x=days_from_start,
           left=df_uk_report_days$days_before[r], 
-          right=df_uk_report_days$days_from_start[r]
+          right=df_uk_report_days$days_from_start[r]-1
           )
       ) %>%
     dplyr::mutate(df_uk_rasff_soon=1)
@@ -102,7 +104,7 @@ for (r in 1:dim(df_uk_report_days)[1]){
 # Mutate uk_rasff_soon to reflect imminent UK RASFFs and filter out.
 df_full <- dplyr::mutate(
   df_full, uk_rasff_soon=dplyr::if_else(
-    condition=df_full$reference%in%references_uk_soon,
+    condition=df_full$reference %in% references_uk_soon,
     true=df_full$uk_rasff_soon<-1,
     false=df_full$uk_rasff_soon<-0
     )
