@@ -79,7 +79,7 @@ df_full <- dplyr::left_join(
 # Find the UK report days and  associated near-term window.
 df_uk_report_days <- df_full %>%
   dplyr::filter(notifyingCountry=='United Kingdom') %>%
-  dplyr::select(product, days_from_start) %>% # CHECK HERE!
+  dplyr::select(product, days_from_start) %>% # CHECK HERE! days_from_start + 1
   dplyr::mutate(days_before=days_from_start - days)
 dates_near_uk_rasff <- c()
 references_uk_soon <- c()
@@ -161,60 +161,24 @@ g = bnlearn::set.arc(x=g, from='notifying_country', to='uk_rasff_soon')
 g = bnlearn::set.arc(x=g, from='hazard', to='uk_rasff_soon')
 bnviewer::viewer(bayesianNetwork=g)
 # Exploring differnet iss values.
-## iss = 1
-g1 = bnlearn::bn.fit(
-  x=g, data=df_train,
+alpha <- bnlearn::alpha.star(x=g, data=df_train)
+g_fitted = bnlearn::bn.fit(
+  x=g, 
+  data=df_train,
   method='bayes',
-  iss=1*dim(df_train)[1]
+  iss=alpha
   )
-g1_pred <- predict(
-  g1,
-  node='uk_rasff_soon', 
+g_pred <- predict(
+  g_fitted,
+  node='uk_rasff_soon',
   data=df_test
   )
-caret::confusionMatrix(data=g1_pred, reference=df_test$uk_rasff_soon)
-g1_ps<- estimate_probabilities(
-  data_frame=df_test_subset, bayesian_network=g1, predict_column=6
+caret::confusionMatrix(data=g_pred, reference=df_test$uk_rasff_soon)
+g_ps<- estimate_probabilities(
+  data_frame=df_test_subset, bayesian_network=g_fitted, predict_column=6
   )
-g1_comparison <- estimates_vs_reality(
-  estimates=g1_ps, reality=df_test_subset$uk_rasff_soon)
-g1_comparison_plot <- plot_estimates_vs_reality(data_frame=g1_comparison)
-g1_comparison_plot
-## iss = 2
-g2 = bnlearn::bn.fit(
-  x=g, data=df_train,
-  method='bayes',
-  iss=2*dim(df_train)[1]
+g_comparison <- estimates_vs_reality(
+  estimates=g_ps, reality=df_test_subset$uk_rasff_soon
   )
-g2_pred <- predict(
-  g2,
-  node='uk_rasff_soon', 
-  data=df_test
-  )
-caret::confusionMatrix(data=g2_pred, reference=df_test$uk_rasff_soon)
-g2_ps<- estimate_probabilities(
-  data_frame=df_test_subset, bayesian_network=g2, predict_column=6
-  )
-g2_comparison <- estimates_vs_reality(
-  estimates=g2_ps, reality=df_test_subset$uk_rasff_soon)
-g2_comparison_plot <- plot_estimates_vs_reality(data_frame=g2_comparison)
-g2_comparison_plot
-## iss = 5
-g5 = bnlearn::bn.fit(
-  x=g, data=df_train,
-  method='bayes',
-  iss=5*dim(df_train)[1]
-)
-g5_pred <- predict(
-  g5,
-  node='uk_rasff_soon', 
-  data=df_test
-  )
-caret::confusionMatrix(data=g5_pred, reference=df_test$uk_rasff_soon)
-g5_ps<- estimate_probabilities(
-  data_frame=df_test_subset, bayesian_network=g5, predict_column=6
-  )
-g5_comparison <- estimates_vs_reality(
-  estimates=g5_ps, reality=df_test_subset$uk_rasff_soon)
-g5_comparison_plot <- plot_estimates_vs_reality(data_frame=g5_comparison)
-g5_comparison_plot
+g_comparison_plot <- plot_estimates_vs_reality(data_frame=g_comparison)
+g_comparison_plot
