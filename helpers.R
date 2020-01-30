@@ -125,5 +125,11 @@ standardise_hazards <- function(data_frame){
         hazard, str_detect(hazard, 'fipronil'), 'Fipronil'
         )
       )
+  hazards_selection <- c('Aflatoxins', 'Salmonella spp.', 'Listeria spp.',
+                         'Mercury', 'E. coli', 'Sulphite', 'Cadmium',
+                         'Genetically Modified', 'Ochratoxin A', 'Histamine',
+                         'Fipronil')
+  df <- df %>%
+    dplyr::filter(hazard %in% hazards_selection)
   return(df)
   }
