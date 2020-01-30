@@ -175,4 +175,8 @@ standardise_hazards <- function(data_frame){
   df <- df %>%
     dplyr::filter(hazard %in% hazards_selection)
   return(df)
-  }
+}
+
+standardise_products <- function(data_frame){
+  NA
+}
