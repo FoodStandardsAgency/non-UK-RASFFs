@@ -69,60 +69,94 @@ standardise_hazards <- function(data_frame){
   df <- data_frame %>%
     mutate(original_hazard=hazard) %>%
     mutate(
-      hazard=replace(hazard, str_detect(hazard, 'aflatoxin'), 'Aflatoxins')
-      ) %>%
-    mutate(
       hazard=replace(
-        hazard, str_detect(hazard, 'almonella'), 'Salmonella spp.'
-        )
-      ) %>%
-    mutate(
-      hazard=replace(hazard, str_detect(hazard, 'mercury'), 'Mercury')
-      ) %>%
-    mutate(
-      hazard=replace(hazard, str_detect(hazard, 'isteria'), 'Listeria spp.')
-      ) %>%
-    mutate(
-      hazard=replace(hazard, str_detect(hazard, 'scherichia coli'), 'E. coli')
-      ) %>%
-    mutate(
-      hazard=replace(
-        hazard, str_detect(hazard, 'sulphite unauthorised'), 'Sulphite'
+        x=hazard,
+        list=stringr::str_detect(string=hazard, pattern='aflatoxin'),
+        values='Aflatoxins'
         )
       ) %>%
     mutate(
       hazard=replace(
-        hazard, str_detect(hazard, 'sulphite undeclared'), 'Sulphite'
+        x=hazard,
+        list=stringr::str_detect(string=hazard, pattern='almonella'),
+        values='Salmonella spp.'
         )
       ) %>%
     mutate(
       hazard=replace(
-        hazard, str_detect(hazard, 'too high content of sulphite'), 'Sulphite')
-      ) %>%
-    mutate(
-      hazard=replace(
-        hazard, str_detect(hazard, 'cadmium'), 'Cadmium')
-      ) %>%
-    mutate(
-      hazard=replace(
-        hazard, 
-        str_detect(hazard, 'genetically modified'),
-        'Genetically Modified'
+        x=hazard, 
+        list=stringr::str_detect(hazard, 'mercury'),
+        values='Mercury'
         )
       ) %>%
     mutate(
       hazard=replace(
-        hazard, str_detect(hazard, 'ochratoxin A'), 'Ochratoxin A'
+        x=hazard,
+        list=stringr::str_detect(hazard, 'isteria'),
+        values='Listeria spp.'
         )
       ) %>%
     mutate(
       hazard=replace(
-        hazard, str_detect(hazard, 'histamine'), 'Histamine'
+        x=hazard, 
+        list=stringr::str_detect(hazard, 'scherichia coli'), 
+        values='E. coli'
         )
       ) %>%
     mutate(
       hazard=replace(
-        hazard, str_detect(hazard, 'fipronil'), 'Fipronil'
+        x=hazard, 
+        list=stringr::str_detect(hazard, 'sulphite unauthorised'), 
+        values='Sulphite'
+        )
+      ) %>%
+    mutate(
+      hazard=replace(
+        x=hazard,
+        list=stringr::str_detect(hazard, 'sulphite undeclared'),
+        values='Sulphite'
+        )
+      ) %>%
+    mutate(
+      hazard=replace(
+        x=hazard, 
+        list=stringr::str_detect(hazard, 'too high content of sulphite'), 
+        values='Sulphite'
+        )
+      ) %>%
+    mutate(
+      hazard=replace(
+        x=hazard, 
+        list=stringr::str_detect(hazard, 'cadmium'), 
+        values='Cadmium'
+        )
+      ) %>%
+    mutate(
+      hazard=replace(
+        x=hazard, 
+        list=stringr::str_detect(hazard, 'genetically modified'),
+        values='Genetically Modified'
+        )
+      ) %>%
+    mutate(
+      hazard=replace(
+        x=hazard, 
+        list=stringr::str_detect(hazard, 'ochratoxin A'),
+        values='Ochratoxin A'
+        )
+      ) %>%
+    mutate(
+      hazard=replace(
+        x=hazard, 
+        list=stringr::str_detect(hazard, 'histamine'), 
+        values='Histamine'
+        )
+      ) %>%
+    mutate(
+      hazard=replace(
+        x=hazard,
+        list=stringr::str_detect(hazard, 'fipronil'),
+        values='Fipronil'
         )
       )
   hazards_selection <- c('Aflatoxins', 'Salmonella spp.', 'Listeria spp.',
