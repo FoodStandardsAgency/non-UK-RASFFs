@@ -64,3 +64,66 @@ plot_estimates_vs_reality <- function(data_frame){
   theme_bw() 
   return(plt)
   }
+
+standardise_hazards <- function(data_frame){
+  df <- data_frame %>%
+    mutate(original_hazard=hazard) %>%
+    mutate(
+      hazard=replace(hazard, str_detect(hazard, 'aflatoxin'), 'Aflatoxins')
+      ) %>%
+    mutate(
+      hazard=replace(
+        hazard, str_detect(hazard, 'almonella'), 'Salmonella spp.'
+        )
+      ) %>%
+    mutate(
+      hazard=replace(hazard, str_detect(hazard, 'mercury'), 'Mercury')
+      ) %>%
+    mutate(
+      hazard=replace(hazard, str_detect(hazard, 'isteria'), 'Listeria spp.')
+      ) %>%
+    mutate(
+      hazard=replace(hazard, str_detect(hazard, 'scherichia coli'), 'E. coli')
+      ) %>%
+    mutate(
+      hazard=replace(
+        hazard, str_detect(hazard, 'sulphite unauthorised'), 'Sulphite'
+        )
+      ) %>%
+    mutate(
+      hazard=replace(
+        hazard, str_detect(hazard, 'sulphite undeclared'), 'Sulphite'
+        )
+      ) %>%
+    mutate(
+      hazard=replace(
+        hazard, str_detect(hazard, 'too high content of sulphite'), 'Sulphite')
+      ) %>%
+    mutate(
+      hazard=replace(
+        hazard, str_detect(hazard, 'cadmium'), 'Cadmium')
+      ) %>%
+    mutate(
+      hazard=replace(
+        hazard, 
+        str_detect(hazard, 'genetically modified'),
+        'Genetically Modified'
+        )
+      ) %>%
+    mutate(
+      hazard=replace(
+        hazard, str_detect(hazard, 'ochratoxin A'), 'Ochratoxin A'
+        )
+      ) %>%
+    mutate(
+      hazard=replace(
+        hazard, str_detect(hazard, 'histamine'), 'Histamine'
+        )
+      ) %>%
+    mutate(
+      hazard=replace(
+        hazard, str_detect(hazard, 'fipronil'), 'Fipronil'
+        )
+      )
+  return(df)
+  }

@@ -122,14 +122,15 @@ df_full <- df_full[, col_order] %>%
   dplyr::rename(date_of_case=dateOfCase) %>%
   dplyr::rename(product_category=productCategory) %>%
   dplyr::rename(hazard_type=hazardType) %>%
-  dplyr::rename(notifying_country=notifyingCountry) #%>%
-  #dplyr::filter(df_full$date >= '01-01-2000')
+  dplyr::rename(notifying_country=notifyingCountry)
+# Use a restricted set of hazards.
+df_filtered_hazards <- standardise_hazards(data_frame=df_full)
 # Build and fit a Bayesian network.
 df_features <- df_full %>%
   dplyr::select(
     -c(
       reference, date_of_case, date, days_from_start, classification, type,
-      subject
+      subject, original_hazard
       )
     ) %>%
   dplyr::mutate(month=as.factor(month)) %>%
