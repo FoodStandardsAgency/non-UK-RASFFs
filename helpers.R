@@ -46,7 +46,7 @@ estimates_vs_reality <- function(estimates, reality){
   averages <- df %>%
     group_by(p_group) %>% 
     dplyr::summarise(mean=mean(reality, na.rm=TRUE), n=n()) %>%
-    dplyr::filter(n >= 10)
+    dplyr::filter(n >= 5)
   return(averages)
   }
 
@@ -59,6 +59,8 @@ plot_estimates_vs_reality <- function(data_frame){
     geom_point(lwd=2) +
     xlab('Predicted Probability') +
     ylab('Realised Proportion of Events') +
+    xlim(low=0, high=1) +
+    ylim(low=0, high=1) +
   theme_bw() 
   return(plt)
   }

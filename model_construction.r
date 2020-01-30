@@ -80,6 +80,7 @@ df_full <- dplyr::left_join(
 df_uk_report_days <- df_full %>%
   dplyr::filter(notifyingCountry=='United Kingdom') %>%
   dplyr::select(product, origin_country, hazard, days_from_start) %>% 
+  #dplyr::select(productCategory, origin_country, hazard, days_from_start) %>% 
   dplyr::mutate(days_before=days_from_start - days)
 dates_near_uk_rasff <- c()
 references_uk_soon <- c()
@@ -87,6 +88,7 @@ for (r in 1:dim(df_uk_report_days)[1]){
   df_filter <- df_full %>%
     dplyr::filter(
       product == df_uk_report_days$product[r] &
+      #productCategory == df_uk_report_days$productCategory[r] &
         origin_country == df_uk_report_days$origin_country[r] &
         #hazard == df_uk_report_days$hazard &
         dplyr::between(
@@ -120,7 +122,8 @@ df_full <- df_full[, col_order] %>%
   dplyr::rename(date_of_case=dateOfCase) %>%
   dplyr::rename(product_category=productCategory) %>%
   dplyr::rename(hazard_type=hazardType) %>%
-  dplyr::rename(notifying_country=notifyingCountry)
+  dplyr::rename(notifying_country=notifyingCountry) #%>%
+  #dplyr::filter(df_full$date >= '01-01-2000')
 # Build and fit a Bayesian network.
 df_features <- df_full %>%
   dplyr::select(
@@ -148,7 +151,7 @@ df_features <- data.frame(df_features)
 train_index <- sample(1:dim(df_features)[1], floor(dim(df_features)[1]*0.8))
 df_train <- df_features[train_index,]
 df_test <- df_features[-train_index,]
-df_test_subset <- df_test[sample(dim(df_test)[1], 2000), ]
+df_test_subset <- df_test[sample(dim(df_test)[1], 5000), ]
 ## Manual structure based on expert knowledge.
 g = bnlearn::empty.graph(nodes=names(df_features))
 g = bnlearn::set.arc(x=g, from='month', to='origin_country')
