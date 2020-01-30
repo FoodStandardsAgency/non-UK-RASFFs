@@ -85,77 +85,86 @@ standardise_hazards <- function(data_frame){
     mutate(
       hazard=replace(
         x=hazard, 
-        list=stringr::str_detect(hazard, 'mercury'),
+        list=stringr::str_detect(string=hazard, pattern='mercury'),
         values='Mercury'
         )
       ) %>%
     mutate(
       hazard=replace(
         x=hazard,
-        list=stringr::str_detect(hazard, 'isteria'),
+        list=stringr::str_detect(string=hazard, pattern='isteria'),
         values='Listeria spp.'
         )
       ) %>%
     mutate(
       hazard=replace(
         x=hazard, 
-        list=stringr::str_detect(hazard, 'scherichia coli'), 
+        list=stringr::str_detect(string=hazard, pattern='scherichia coli'), 
         values='E. coli'
         )
       ) %>%
     mutate(
       hazard=replace(
         x=hazard, 
-        list=stringr::str_detect(hazard, 'sulphite unauthorised'), 
+        list=stringr::str_detect(
+          string=hazard, 
+          pattern='sulphite unauthorised'
+          ), 
         values='Sulphite'
         )
       ) %>%
     mutate(
       hazard=replace(
         x=hazard,
-        list=stringr::str_detect(hazard, 'sulphite undeclared'),
+        list=stringr::str_detect(string=hazard, pattern='sulphite undeclared'),
         values='Sulphite'
         )
       ) %>%
     mutate(
       hazard=replace(
         x=hazard, 
-        list=stringr::str_detect(hazard, 'too high content of sulphite'), 
+        list=stringr::str_detect(
+          string=hazard,
+          pattern='too high content of sulphite'
+          ), 
         values='Sulphite'
         )
       ) %>%
     mutate(
       hazard=replace(
         x=hazard, 
-        list=stringr::str_detect(hazard, 'cadmium'), 
+        list=stringr::str_detect(string=hazard, pattern='cadmium'), 
         values='Cadmium'
         )
       ) %>%
     mutate(
       hazard=replace(
         x=hazard, 
-        list=stringr::str_detect(hazard, 'genetically modified'),
+        list=stringr::str_detect(
+          string=hazard,
+          pattern='genetically modified'
+          ),
         values='Genetically Modified'
         )
       ) %>%
     mutate(
       hazard=replace(
         x=hazard, 
-        list=stringr::str_detect(hazard, 'ochratoxin A'),
+        list=stringr::str_detect(string=hazard, pattern='ochratoxin A'),
         values='Ochratoxin A'
         )
       ) %>%
     mutate(
       hazard=replace(
         x=hazard, 
-        list=stringr::str_detect(hazard, 'histamine'), 
+        list=stringr::str_detect(string=hazard, pattern='histamine'), 
         values='Histamine'
         )
       ) %>%
     mutate(
       hazard=replace(
         x=hazard,
-        list=stringr::str_detect(hazard, 'fipronil'),
+        list=stringr::str_detect(string=hazard, pattern='fipronil'),
         values='Fipronil'
         )
       )
