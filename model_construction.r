@@ -125,6 +125,7 @@ df_full <- df_full[, col_order] %>%
   dplyr::rename(notifying_country=notifyingCountry)
 # Use a restricted set of hazards.
 df_filtered_hazards <- standardise_hazards(data_frame=df_full)
+df_filtered <- standardise_products(data_frame=df_filtered_hazards)
 # Build and fit a Bayesian network.
 df_features <- df_full %>%
   dplyr::select(
