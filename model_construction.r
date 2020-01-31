@@ -171,7 +171,7 @@ g_fitted = bnlearn::bn.fit(
   method='bayes',
   iss=alpha
   )
-g_pred <- predict(
+g_pred <- stats::predict(
   g_fitted,
   node='uk_rasff_soon',
   data=df_test
@@ -185,3 +185,17 @@ g_comparison <- estimates_vs_reality(
   )
 g_comparison_plot <- plot_estimates_vs_reality(data_frame=g_comparison)
 g_comparison_plot
+# Tree-augmented naive Bayes
+bn_tan <- bnlearn::tree.bayes(
+  x=data.frame(df_train), 
+  training='uk_rasff_soon'
+  )
+alpha_tan <- bnlearn::alpha.star(x=g, data=df_train)
+tan_fit <- bnlearn::bn.fit(
+  x=bn_tan, 
+  data=df_train,
+  method='bayes',
+  iss=alpha
+  )
+tan_pred <- stats::predict(tan_fit, data=df_test)
+caret::confusionMatrix(data=tan_pred, reference=df_test$uk_rasff_soon)
