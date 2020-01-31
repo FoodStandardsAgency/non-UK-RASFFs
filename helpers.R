@@ -177,16 +177,31 @@ standardise_hazards <- function(data_frame){
   return(df)
 }
 
+mutate_replace <- function(string_column, pattern_string, new_string){
+  dplyr::mutate(
+    string_column=replace(
+      x=string_column,
+      list=stringr::str_detect(string=string_column, pattern=pattern_string),
+      values=new_string
+      )
+    )
+  }
+
 standardise_products <- function(data_frame){
   df <- data_frame %>%
     dplyr::mutate(original_product=product) %>%
-    dplyr::mutate(
-      product=replace(
-        x=product, 
-        list=stringr::str_detect(string=product, pattern='food supplement'),
-        values='Food Supplement'
-        )
+    mutate_replace(
+      string_column=product,
+      pattern_string='food supplement',
+      new_string='Food Supplement'
       ) %>%
+    #dplyr::mutate(
+    #  product=replace(
+    #    x=product, 
+    #    list=stringr::str_detect(string=product, pattern='food supplement'),
+    #    values='Food Supplement'
+    #    )
+    #  ) %>%
     dplyr::mutate(
       product=replace(
         x=product,
@@ -194,7 +209,11 @@ standardise_products <- function(data_frame){
         values='Pistachios'
         )
       ) %>%
-    mutate(product=replace(product, str_detect(product, 'pistachio'), 'Pistachios')) %>%
+    dplyr::mutate(
+      product=replace(
+        x=product,
+        list=stringr::str_detect(string=product, pattern='pistachio'),
+        'Pistachios')) %>%
     mutate(product=replace(product, str_detect(product, 'dried figs'), 'Dried Figs')) %>%
     mutate(product=replace(product, str_detect(product, 'dried  figs'), 'Dried Figs')) %>%
     mutate(product=replace(product, str_detect(product, 'drieg figs'), 'Dried Figs')) %>%
@@ -405,4 +424,7 @@ standardise_products <- function(data_frame){
                           'Beef',
                           'Pork'
                           )
-}
+  df <- df %>%
+    dplyr::filter(product %in% products_selection)
+  return(df)
+  }
