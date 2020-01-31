@@ -193,65 +193,82 @@ standardise_products <- function(data_frame){
     mutate_replace_product(
       old_string='figs - dried', new_string='Dried Figs'
       ) %>%
-    mutate(product=replace(product, str_detect(product, 'groundnut'), 'Peanuts')) %>%
-    mutate(product=replace(product, str_detect(product, 'peanut'), 'Peanuts')) %>%
-    mutate(product=replace(product, str_detect(product, 'Peanut'), 'Peanuts')) %>%
-    mutate(product=replace(product, str_detect(product, 'hazelnut'), 'Hazelnuts'))%>%
-    mutate(product=replace(product, str_detect(product, 'Hazelnuts - shelled'), 'Hazelnuts'))%>%
-    mutate(product=replace(product, str_detect(product, 'Hazelnut kernels without shell'), 'Hazelnuts'))%>%
-    mutate(product=replace(product, str_detect(product, 'Hazelnuts - Natural'), 'Hazelnuts'))%>%
-    mutate(product=replace(product, str_detect(product, 'Hazelnut kernels,shelled'), 'Hazelnuts'))%>%
-    mutate(product=replace(product, str_detect(product, 'Hazelnut kernels'), 'Hazelnuts'))%>%
-    mutate(product=replace(product, str_detect(product, 'Hazelnuts - shelled kernels'), 'Hazelnuts'))%>%
-    mutate(product=replace(product, str_detect(product, 'Hazelnuts - shelled'), 'Hazelnuts'))%>%
-    mutate(product=replace(product, str_detect(product, 'Hazelnuts - peeled'), 'Hazelnuts'))%>%
-    mutate(product=replace(product, str_detect(product, 'Hazelnuts - minced'), 'Hazelnuts'))%>%
-    mutate(product=replace(product, str_detect(product, 'Hazelnuts kernels'), 'Hazelnuts'))%>%
-    mutate(product=replace(product, str_detect(product, 'Hazelnuts kernels - ground'), 'Hazelnuts'))%>%
-    mutate(product=replace(product, str_detect(product, 'Hazelnuts - kernels'), 'Hazelnuts'))%>%
-    mutate(product=replace(product, str_detect(product, 'Hazelnuts kernels - broken'), 'Hazelnuts'))%>%
-    mutate(product=replace(product, str_detect(product, 'Hazelnuts - ground'), 'Hazelnuts'))%>%
-    mutate(product=replace(product, str_detect(product, 'Hazelnuts - broken'), 'Hazelnuts'))%>%
-    mutate(product=replace(product, str_detect(product, 'Hazelnuts powder'), 'Hazelnuts'))%>%
-    mutate(product=replace(product, str_detect(product, 'peeled hazel nuts'), 'Hazelnuts'))%>%
-    mutate(product=replace(product, str_detect(product, 'soybean meal'), 'Soybean Meal')) %>%
-    mutate(product=replace(product, str_detect(product, 'soybeanmeal'), 'Soybean Meal')) %>%
-    mutate(product=replace(product, str_detect(product, 'soybean pellets'), 'Soybean Meal')) %>%
-    mutate(product=replace(product, str_detect(product, 'soybean pellets'), 'Soybean Meal')) %>%
-    mutate(product=replace(product, str_detect(product, 'soybeanmeal'), 'Soybean Meal')) %>%
-    mutate(product=replace(product, str_detect(product, 'soy bean meal'), 'Soybean Meal')) %>%
-    mutate(product=replace(product, str_detect(product, 'soya bean meal'), 'Soybean Meal')) %>%
-    mutate(product=replace(product, str_detect(product, 'soya pellets'), 'Soybean Meal')) %>%
-    mutate(product=replace(product, str_detect(product, 'soya meal'), 'Soybean Meal')) %>%
-    mutate(product=replace(product, str_detect(product, 'soyabean meal'), 'Soybean Meal')) %>%
-    mutate(product=replace(product, str_detect(product, 'soy pellets in bulk'), 'Soybean Meal')) %>%
-    mutate(product=replace(product, str_detect(product, 'organic soy beans'), 'Soybean Meal')) %>%
-    mutate(product=replace(product, str_detect(product, 'organic soya'), 'Soybean Meal')) %>%
-    mutate(product=replace(product, str_detect(product, 'soyabean meal'), 'Soybean Meal')) %>%
-    mutate(product=replace(product, str_detect(product, 'soy meal'), 'Soybean Meal')) %>%
-    mutate(product=replace(product, str_detect(product, 'soya'), 'Soybean Meal')) %>%
-    mutate(product=replace(product, str_detect(product, 'soymeal'), 'Soybean Meal')) %>%
-    mutate(product=replace(product, str_detect(product, 'soybean'), 'Soybean Meal')) %>%
-    mutate(product=replace(product, str_detect(product, 'soy-bean meal'), 'Soybean Meal')) %>%
-    mutate(product=replace(product, str_detect(product, 'organic soy bean'), 'Soybean Meal')) %>%
-    mutate(product=replace(product, str_detect(product, 'fish meal'), 'Fish Meal')) %>%
-    mutate(product=replace(product, str_detect(product, 'fishmeal'), 'Fish Meal')) %>%
-    mutate(product=replace(product, str_detect(product, 'Fish meal'), 'Fish Meal')) %>%
-    mutate(product=replace(product, str_detect(product, 'almonds'), 'Almonds')) %>%
-    mutate(product=replace(product, str_detect(product, 'almond kernels'), 'Almonds')) %>%
-    mutate(product=replace(product, str_detect(product, 'whole almond kernels with skin'), 'Almonds')) %>%
-    mutate(product=replace(product, str_detect(product, 'sweet almond kernels'), 'Almonds')) %>%
-    mutate(product=replace(product, str_detect(product, 'almond kernels with skin'), 'Almonds')) %>%
-    mutate(product=replace(product, str_detect(product, 'almond meal'), 'Almonds')) %>%
-    mutate(product=replace(product, str_detect(product, 'sweet shelled almond kernels'), 'Almonds')) %>%
-    mutate(product=replace(product, str_detect(product, 'almond'), 'Almonds')) %>%
-    mutate(product=replace(product, str_detect(product, 'almond flakes'), 'Almonds')) %>%
-    mutate(product=replace(product, str_detect(product, 'almond powder'), 'Almonds')) %>%
-    mutate(product=replace(product, str_detect(product, 'diced almond'), 'Almonds')) %>%
-    mutate(product=replace(product, str_detect(product, 'diced almond kernels'), 'Almonds')) %>%
-    mutate(product=replace(product, str_detect(product, 'half almond kernels with skin'), 'Almonds')) %>%
-    mutate(product=replace(product, str_detect(product, 'sweet almond grains'), 'Almonds')) %>%
-    mutate(product=replace(product, str_detect(product, 'unpasteurised almond kernels'), 'Almonds')) %>%
+    mutate_replace_product(old_string='groundnut', new_string='Peanuts') %>%
+    mutate_replace_product(old_string='peanut', new_string='Peanuts') %>%
+    mutate_replace_product(old_string='hazelnut', new_string='Hazelnuts') %>%
+    mutate_replace_product(
+      old_string='hazelnuts - shelled', new_string='Hazelnuts'
+      ) %>%
+    mutate_replace_product(
+      old_string='hazelnut kernels without shell', new_string='Hazelnuts'
+      ) %>%
+    mutate_replace_product(
+      old_string='hazel nut', new_string='Hazelnuts'
+      ) %>%
+    mutate_replace_product(
+      old_string='soybean meal', new_string='Soybean Meal'
+      ) %>%
+    mutate_replace_product(
+      old_string='soybeanmeal', new_string='Soybean Meal'
+      ) %>%
+    mutate_replace_product(
+      old_string='soyabeanmeal', new_string='Soybean Meal'
+      ) %>%
+    mutate_replace_product(
+      old_string='soybean pellet', new_string='Soybean Meal'
+      ) %>%
+    mutate_replace_product(
+      old_string='soy bean meal', new_string='Soybean Meal'
+      ) %>%
+    mutate_replace_product(
+      old_string='soya bean meal', new_string='Soybean Meal'
+      ) %>%
+    mutate_replace_product(
+      old_string='soya meal', new_string='Soybean Meal'
+      ) %>%
+    mutate_replace_product(
+      old_string='soya pellets', new_string='Soybean Meal'
+      ) %>%
+    mutate_replace_product(
+      old_string='soy pellets in bulk', new_string='Soybean Meal'
+      ) %>%
+    mutate_replace_product(
+      old_string='organic soya', new_string='Soybean Meal'
+      ) %>%
+    mutate_replace_product(
+      old_string='soyabean meal', new_string='Soybean Meal'
+      ) %>%
+    mutate_replace_product(
+      old_string='soy meal', new_string='Soybean Meal'
+      ) %>%
+    mutate_replace_product(
+      old_string='soymeal', new_string='Soybean Meal'
+      ) %>%
+    mutate_replace_product(
+      old_string='soy-bean meal', new_string='Soybean Meal'
+      ) %>%
+    mutate_replace_product(old_string='fish meal', new_string='Fish Meal') %>%
+    mutate_replace_product(old_string='fishmeal', new_string='Fish Meal') %>%
+    mutate_replace_product(old_string='almonds', new_string='Almonds') %>%
+    mutate_replace_product(
+      old_string='almond kernels', new_string='Almonds'
+      ) %>%
+    mutate_replace_product(old_string='almond meal', new_string='Almonds') %>%
+    mutate_replace_product(
+      old_string='almond flakes', new_string='Almonds'
+      ) %>%
+    mutate_replace_product(
+      old_string='almond powder', new_string='Almonds'
+      ) %>%
+    mutate_replace_product(
+      old_string='diced almond', new_string='Almonds'
+      ) %>%
+    mutate_replace_product(
+      old_string='half almond kernels with skin', new_string='Almonds'
+      ) %>%
+    mutate_replace_product(
+      old_string='sweet almond grains', new_string='Almonds'
+      ) %>%
     mutate(product=replace(product, str_detect(product, 'smoked salmon'), 'Smoked Salmon')) %>%
     mutate(product=replace(product, str_detect(product, 'salmon - smoked'), 'Smoked Salmon')) %>%
     mutate(product=replace(product, str_detect(product, 'Salmon - smoked'), 'Smoked Salmon')) %>%
@@ -370,7 +387,7 @@ standardise_products <- function(data_frame){
                           'Pistachios',
                           'Dried Figs', 
                           'Hazelnuts',
-                          'Chicken Breast',
+                          'Chicken',
                           'Sesame Seeds',
                           'Soybean Meal',
                           'Almonds',
