@@ -7,7 +7,6 @@ source('helpers.r')
 
 # Number of days considered to be the near-term.
 days <- 28
-
 # Load the data.
 ## Columns to be collected.
 data_columns1 <- 'classification, dateOfCase, reference, notifyingCountry,'
@@ -29,7 +28,6 @@ df_hazards_raw <- load_rasffs(
   columns='reference, hazard, hazardType',
   table='rasff_hazards'
   )
-
 # Edit tables prior to amalgamating.
 ## Identify origin countries.
 df_origins <- df_countries_raw %>%
@@ -56,7 +54,6 @@ df_dist_uk <- df_countries_raw %>%
   dplyr::filter(
     stringr::str_detect(string=country, pattern='\\(O\\)', negate=T)
     )
-
 # Create a full dataset.
 df_full <- dplyr::left_join(
   x=unique(df_data_raw),

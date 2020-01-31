@@ -10,7 +10,7 @@ load_rasffs <- function(columns='*', table=''){
   data_tibble <- dplyr::as_tibble(
     DBI::dbGetQuery(
       conn=con,
-      statement= paste0(
+      statement=base::paste0(
         'SELECT ', columns, ' FROM [SPRINT_RiskyFoods].[dbo].[', table, ']'
         )
       )
@@ -38,6 +38,7 @@ estimate_probabilities <- function(
     return(probs)
     }
 
+
 estimates_vs_reality <- function(estimates, reality){
   df <- dplyr::tibble(estimates, reality) %>%
     dplyr::mutate(estimates=round(estimates, digits=2)) %>%
@@ -49,6 +50,7 @@ estimates_vs_reality <- function(estimates, reality){
     dplyr::filter(n >= 5)
   return(averages)
   }
+
 
 plot_estimates_vs_reality <- function(data_frame){
   plt <- ggplot2::ggplot(
@@ -65,109 +67,64 @@ plot_estimates_vs_reality <- function(data_frame){
   return(plt)
   }
 
+
+mutate_replace_hazard <- function(
+  .data, old_string, new_string, hazard=hazard
+  ){
+  dplyr::mutate(.data,
+    hazard=base::replace(
+      x=hazard,
+      list=stringr::str_detect(string=hazard, pattern=old_string),
+      values=new_string
+      )
+    )
+}
+
+
+mutate_replace_product <- function(.data, product, old_string, new_string){
+  dplyr::mutate(.data,
+                product=base::replace(
+                  x=product,
+                  list=stringr::str_detect(string=product, pattern=old_string),
+                  values=new_string
+                  )
+                )
+  }
+
+
 standardise_hazards <- function(data_frame){
   df <- data_frame %>%
     dplyr::mutate(original_hazard=hazard) %>%
-    dplyr::mutate(
-      hazard=base::replace(
-        x=hazard,
-        list=stringr::str_detect(string=hazard, pattern='aflatoxin'),
-        values='Aflatoxins'
-        )
+    mutate_replace_hazard(old_string='aflatoxin', new_string='Aflatoxins') %>%
+    mutate_replace_hazard(
+      old_string='almonella', new_string='Salmonella spp.'
       ) %>%
-    dplyr::mutate(
-      hazard=base::replace(
-        x=hazard,
-        list=stringr::str_detect(string=hazard, pattern='almonella'),
-        values='Salmonella spp.'
-        )
+    mutate_replace_hazard(old_string='mercury', new_string='Mercury') %>%
+    mutate_replace_hazard(old_string='isteria', new_string='Listeria spp.') %>%
+    mutate_replace_hazard(
+      old_string='scherichia coli', new_string='E. coli'
       ) %>%
-    dplry::mutate(
-      hazard=base::replace(
-        x=hazard, 
-        list=stringr::str_detect(string=hazard, pattern='mercury'),
-        values='Mercury'
-        )
+    mutate_replace_hazard(
+      old_string='sulphite unauthorised', new_string='Sulphite'
       ) %>%
-    mutate(
-      hazard=replace(
-        x=hazard,
-        list=stringr::str_detect(string=hazard, pattern='isteria'),
-        values='Listeria spp.'
-        )
+    mutate_replace_hazard(
+      old_string='sulphite undeclared', new_string='Sulphite'
       ) %>%
-    mutate(
-      hazard=replace(
-        x=hazard, 
-        list=stringr::str_detect(string=hazard, pattern='scherichia coli'), 
-        values='E. coli'
-        )
+    mutate_replace_hazard(
+      old_string='too high content of sulphite', new_string='Sulphite'
       ) %>%
-    mutate(
-      hazard=replace(
-        x=hazard, 
-        list=stringr::str_detect(
-          string=hazard, 
-          pattern='sulphite unauthorised'
-          ), 
-        values='Sulphite'
-        )
+    mutate_replace_hazard(old_string='cadmium', new_string='Cadmium') %>%
+    mutate_replace_hazard(
+      old_string='genetically modified', new_string='Genetically Modified'
       ) %>%
-    mutate(
-      hazard=replace(
-        x=hazard,
-        list=stringr::str_detect(string=hazard, pattern='sulphite undeclared'),
-        values='Sulphite'
-        )
+    mutate_replace_hazard(
+      old_string='ochratoxin A', new_string='Ochratoxin A'
       ) %>%
-    mutate(
-      hazard=replace(
-        x=hazard, 
-        list=stringr::str_detect(
-          string=hazard,
-          pattern='too high content of sulphite'
-          ), 
-        values='Sulphite'
-        )
+    mutate_replace_hazard(
+      old_string='histamine', new_string='Histamine'
       ) %>%
-    mutate(
-      hazard=replace(
-        x=hazard, 
-        list=stringr::str_detect(string=hazard, pattern='cadmium'), 
-        values='Cadmium'
-        )
-      ) %>%
-    mutate(
-      hazard=replace(
-        x=hazard, 
-        list=stringr::str_detect(
-          string=hazard,
-          pattern='genetically modified'
-          ),
-        values='Genetically Modified'
-        )
-      ) %>%
-    mutate(
-      hazard=replace(
-        x=hazard, 
-        list=stringr::str_detect(string=hazard, pattern='ochratoxin A'),
-        values='Ochratoxin A'
-        )
-      ) %>%
-    mutate(
-      hazard=replace(
-        x=hazard, 
-        list=stringr::str_detect(string=hazard, pattern='histamine'), 
-        values='Histamine'
-        )
-      ) %>%
-    mutate(
-      hazard=replace(
-        x=hazard,
-        list=stringr::str_detect(string=hazard, pattern='fipronil'),
-        values='Fipronil'
-        )
-      )
+    mutate_replace_hazard(
+      old_string='fipronil', new_string='Fipronil')
   hazards_selection <- c('Aflatoxins', 'Salmonella spp.', 'Listeria spp.',
                          'Mercury', 'E. coli', 'Sulphite', 'Cadmium',
                          'Genetically Modified', 'Ochratoxin A', 'Histamine',
@@ -176,6 +133,7 @@ standardise_hazards <- function(data_frame){
     dplyr::filter(hazard %in% hazards_selection)
   return(df)
 }
+
 
 standardise_products <- function(data_frame){
   df <- data_frame %>%
@@ -418,4 +376,4 @@ standardise_products <- function(data_frame){
   df <- df %>%
     dplyr::filter(product %in% products_selection)
   return(df)
-  }
+}
