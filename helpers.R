@@ -67,23 +67,23 @@ plot_estimates_vs_reality <- function(data_frame){
 
 standardise_hazards <- function(data_frame){
   df <- data_frame %>%
-    mutate(original_hazard=hazard) %>%
-    mutate(
-      hazard=replace(
+    dplyr::mutate(original_hazard=hazard) %>%
+    dplyr::mutate(
+      hazard=base::replace(
         x=hazard,
         list=stringr::str_detect(string=hazard, pattern='aflatoxin'),
         values='Aflatoxins'
         )
       ) %>%
-    mutate(
-      hazard=replace(
+    dplyr::mutate(
+      hazard=base::replace(
         x=hazard,
         list=stringr::str_detect(string=hazard, pattern='almonella'),
         values='Salmonella spp.'
         )
       ) %>%
-    mutate(
-      hazard=replace(
+    dplry::mutate(
+      hazard=base::replace(
         x=hazard, 
         list=stringr::str_detect(string=hazard, pattern='mercury'),
         values='Mercury'
@@ -177,33 +177,18 @@ standardise_hazards <- function(data_frame){
   return(df)
 }
 
-mutate_replace <- function(string_column, pattern_string, new_string){
-  dplyr::mutate(
-    string_column=replace(
-      x=string_column,
-      list=stringr::str_detect(string=string_column, pattern=pattern_string),
-      values=new_string
-      )
-    )
-  }
-
 standardise_products <- function(data_frame){
   df <- data_frame %>%
     dplyr::mutate(original_product=product) %>%
-    mutate_replace(
-      string_column=product,
-      pattern_string='food supplement',
-      new_string='Food Supplement'
-      ) %>%
-    #dplyr::mutate(
-    #  product=replace(
-    #    x=product, 
-    #    list=stringr::str_detect(string=product, pattern='food supplement'),
-    #    values='Food Supplement'
-    #    )
-    #  ) %>%
     dplyr::mutate(
-      product=replace(
+      product=base::replace(
+        x=product, 
+        list=stringr::str_detect(string=product, pattern='food supplement'),
+        values='Food Supplement'
+        )
+      ) %>%
+    dplyr::mutate(
+      product=base::replace(
         x=product,
         list=stringr::str_detect(string=product, pattern='Pistachio'),
         values='Pistachios'
@@ -213,8 +198,14 @@ standardise_products <- function(data_frame){
       product=replace(
         x=product,
         list=stringr::str_detect(string=product, pattern='pistachio'),
-        'Pistachios')) %>%
-    mutate(product=replace(product, str_detect(product, 'dried figs'), 'Dried Figs')) %>%
+        values='Pistachios')) %>%
+    dplyr::mutate(
+      product=replace(
+        x=product, 
+        list=stringr::str_detect(string=product, pattern='dried figs'),
+        values='Dried Figs'
+        )
+      ) %>%
     mutate(product=replace(product, str_detect(product, 'dried  figs'), 'Dried Figs')) %>%
     mutate(product=replace(product, str_detect(product, 'drieg figs'), 'Dried Figs')) %>%
     mutate(product=replace(product, str_detect(product, 'Dried figs'), 'Dried Figs')) %>%
