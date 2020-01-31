@@ -74,18 +74,30 @@ mutate_replace_hazard <- function(
   dplyr::mutate(.data,
     hazard=base::replace(
       x=hazard,
-      list=stringr::str_detect(string=hazard, pattern=old_string),
+      list=stringr::str_detect(
+        string=hazard,
+        pattern=stringr::regex(
+          pattern=old_string, ignore_case=TRUE
+          )
+        ),
       values=new_string
       )
     )
 }
 
 
-mutate_replace_product <- function(.data, product, old_string, new_string){
+mutate_replace_product <- function(
+  .data, old_string, new_string, product=product
+  ){
   dplyr::mutate(.data,
                 product=base::replace(
                   x=product,
-                  list=stringr::str_detect(string=product, pattern=old_string),
+                  list=stringr::str_detect(
+                    string=product, 
+                    pattern=stringr::regex(
+                      pattern=old_string, ignore_case=TRUE
+                      )
+                    ),
                   values=new_string
                   )
                 )
@@ -138,48 +150,49 @@ standardise_hazards <- function(data_frame){
 standardise_products <- function(data_frame){
   df <- data_frame %>%
     dplyr::mutate(original_product=product) %>%
-    dplyr::mutate(
-      product=base::replace(
-        x=product, 
-        list=stringr::str_detect(string=product, pattern='food supplement'),
-        values='Food Supplement'
-        )
+    mutate_replace_product(
+      old_string='food supplement', new_string='Food Supplement'
       ) %>%
-    dplyr::mutate(
-      product=base::replace(
-        x=product,
-        list=stringr::str_detect(string=product, pattern='Pistachio'),
-        values='Pistachios'
-        )
+    mutate_replace_product(old_string='Pistachio', new_string='Pistachios') %>%
+    mutate_replace_product(
+      old_string='dried fig', new_string='Dried Figs'
       ) %>%
-    dplyr::mutate(
-      product=replace(
-        x=product,
-        list=stringr::str_detect(string=product, pattern='pistachio'),
-        values='Pistachios')) %>%
-    dplyr::mutate(
-      product=replace(
-        x=product, 
-        list=stringr::str_detect(string=product, pattern='dried figs'),
-        values='Dried Figs'
-        )
+    mutate_replace_product(
+      old_string='dried  fig', new_string='Dried Figs'
       ) %>%
-    mutate(product=replace(product, str_detect(product, 'dried  figs'), 'Dried Figs')) %>%
-    mutate(product=replace(product, str_detect(product, 'drieg figs'), 'Dried Figs')) %>%
-    mutate(product=replace(product, str_detect(product, 'Dried figs'), 'Dried Figs')) %>%
-    mutate(product=replace(product, str_detect(product, 'dried mini figs'), 'Dried Figs')) %>%
-    mutate(product=replace(product, str_detect(product, 'dried garland figs'), 'Dried Figs')) %>%
-    mutate(product=replace(product, str_detect(product, 'dried organic figs'), 'Dried Figs')) %>%
-    mutate(product=replace(product, str_detect(product, 'dried Lerida figs'), 'Dried Figs')) %>%
-    mutate(product=replace(product, str_detect(product, 'dried lerida figs'), 'Dried Figs')) %>%
-    mutate(product=replace(product, str_detect(product, 'dried baglama figs'), 'Dried Figs')) %>%
-    mutate(product=replace(product, str_detect(product, 'dried Protoben figs'), 'Dried Figs')) %>%
-    mutate(product=replace(product, str_detect(product, 'dried fig cubes'), 'Dried Figs')) %>%
-    mutate(product=replace(product, str_detect(product, 'dried diced figs'), 'Dried Figs')) %>%
-    mutate(product=replace(product, str_detect(product, 'dried Layer figs'), 'Dried Figs')) %>%
-    mutate(product=replace(product, str_detect(product, 'dried fig garlands'), 'Dried Figs')) %>%
-    mutate(product=replace(product, str_detect(product, 'figs - dried'), 'Dried Figs')) %>%
-    mutate(product=replace(product, str_detect(product, 'Figs - dried'), 'Dried Figs')) %>%
+    mutate_replace_product(
+      old_string='dried mini fig', new_string='Dried Figs'
+      ) %>%
+    mutate_replace_product(
+      old_string='dried garland fig', new_string='Dried Figs'
+      ) %>%
+    mutate_replace_product(
+      old_string='dried organic fig', new_string='Dried Figs'
+      ) %>%
+    mutate_replace_product(
+      old_string='dried lerida fig', new_string='Dried Figs'
+      ) %>%
+    mutate_replace_product(
+      old_string='dried baglama fig', new_string='Dried Figs'
+      ) %>%
+    mutate_replace_product(
+      old_string='dried Protoben fig', new_string='Dried Figs'
+      ) %>%
+    mutate_replace_product(
+      old_string='dried fig cube', new_string='Dried Figs'
+      ) %>%
+    mutate_replace_product(
+      old_string='dried diced fig', new_string='Dried Figs'
+      ) %>%
+    mutate_replace_product(
+      old_string='dried layer fig', new_string='Dried Figs'
+      ) %>%
+    mutate_replace_product(
+      old_string='dried fig garland', new_string='Dried Figs'
+      ) %>%
+    mutate_replace_product(
+      old_string='figs - dried', new_string='Dried Figs'
+      ) %>%
     mutate(product=replace(product, str_detect(product, 'groundnut'), 'Peanuts')) %>%
     mutate(product=replace(product, str_detect(product, 'peanut'), 'Peanuts')) %>%
     mutate(product=replace(product, str_detect(product, 'Peanut'), 'Peanuts')) %>%
