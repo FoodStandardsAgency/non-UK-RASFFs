@@ -124,11 +124,11 @@ df_full <- df_full[, col_order] %>%
 df_filtered_hazards <- standardise_hazards(data_frame=df_full)
 df_filtered <- standardise_products(data_frame=df_filtered_hazards)
 # Build and fit a Bayesian network.
-df_features <- df_full %>%
+df_features <- df_filtered %>%
   dplyr::select(
     -c(
       reference, date_of_case, date, days_from_start, classification, type,
-      subject, original_hazard
+      subject, original_hazard, original_product
       )
     ) %>%
   dplyr::mutate(month=as.factor(month)) %>%
@@ -147,10 +147,9 @@ df_features <- df_full %>%
   droplevels()
 df_features <- data.frame(df_features)
 ## Create train and test sets.
-train_index <- sample(1:dim(df_features)[1], floor(dim(df_features)[1]*0.8))
+train_index <- sample(1:dim(df_features)[1], floor(dim(df_features)[1] * 0.8))
 df_train <- df_features[train_index,]
 df_test <- df_features[-train_index,]
-df_test_subset <- df_test[sample(dim(df_test)[1], 5000), ]
 ## Manual structure based on expert knowledge.
 g = bnlearn::empty.graph(nodes=names(df_features))
 g = bnlearn::set.arc(x=g, from='month', to='origin_country')
@@ -179,10 +178,10 @@ g_pred <- predict(
   )
 caret::confusionMatrix(data=g_pred, reference=df_test$uk_rasff_soon)
 g_ps<- estimate_probabilities(
-  data_frame=df_test_subset, bayesian_network=g_fitted, predict_column=6
+  data_frame=df_test, bayesian_network=g_fitted, predict_column=6
   )
 g_comparison <- estimates_vs_reality(
-  estimates=g_ps, reality=df_test_subset$uk_rasff_soon
+  estimates=g_ps, reality=df_test$uk_rasff_soon
   )
 g_comparison_plot <- plot_estimates_vs_reality(data_frame=g_comparison)
 g_comparison_plot
