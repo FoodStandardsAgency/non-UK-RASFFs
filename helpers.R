@@ -371,9 +371,12 @@ standardise_products <- function(data_frame){
     mutate_replace_product(
       old_string='chicken boneless skinless', new_string='Chicken'
       ) %>% 
-    
-    mutate(product=replace(product, str_detect(product, 'swordfish'), 'Swordfish')) %>%
-    mutate(product=replace(product, str_detect(product, 'sword fish'), 'Swordfish')) %>%
+    mutate_replace_product(
+      old_string='swordfish', new_string='Swordfish'
+      ) %>% 
+    mutate_replace_product(
+      old_string='sword fish', new_string='Swordfish'
+    ) %>% 
     mutate(product=replace(product, str_detect(product, 'raw milk cheese'), 'Raw Milk Cheese')) %>%
     mutate(product=replace(product, str_detect(product, 'Raw Milk cheese'), 'Raw Milk Cheese')) %>%
     mutate(product=replace(product, str_detect(product, 'Raw milk cheese'), 'Raw Milk Cheese')) %>%
