@@ -335,27 +335,45 @@ standardise_products <- function(data_frame){
     mutate_replace_product(
       old_string='sesam seed', new_string='Sesame Seeds'
       ) %>%
-    mutate(product=replace(product, str_detect(product, 'whole chicken'), 'Chicken')) %>%
-    mutate(product=replace(product, str_detect(product, 'whole hens'), 'Chicken')) %>%
-    mutate(product=replace(product, str_detect(product, 'whole broiler chicken'), 'Chicken')) %>%
-    mutate(product=replace(product, str_detect(product, 'whole frozen chicken without giblets'), 'Chicken')) %>%
-    mutate(product=replace(product, str_detect(product, 'frozen whole raw chicken'), 'Chicken')) %>%
-    mutate(product=replace(product, str_detect(product, 'whole frozen chicken'), 'Chicken')) %>%
-    mutate(product=replace(product, str_detect(product, 'whole fresh chicken'), 'Chicken')) %>%
-    mutate(product=replace(product, str_detect(product, 'frozen whole eviscerated chicken'), 'Chicken')) %>%
-    mutate(product=replace(product, str_detect(product, 'Chicken - whole frozen'), 'Chicken')) %>%
-    mutate(product=replace(product, str_detect(product, 'chicken half breasts'), 'Chicken')) %>%
-    mutate(product=replace(product, str_detect(product, 'chicken breast'), 'Chicken')) %>%
-    mutate(product=replace(product, str_detect(product, 'Chicken breast'), 'Chicken')) %>%
-    mutate(product=replace(product, str_detect(product, 'chickenbreast'), 'Chicken')) %>%
-    mutate(product=replace(product, str_detect(product, 'Chickenbreast'), 'Chicken')) %>%
-    mutate(product=replace(product, str_detect(product, 'chicken boneless skinless'), 'Chicken')) %>%
-    mutate(product=replace(product, str_detect(product, 'chicken boneless skinless breast'), 'Chicken')) %>%
-    mutate(product=replace(product, str_detect(product, 'chicken half breast'), 'Chicken')) %>%
-    mutate(product=replace(product, str_detect(product, 'chicken half breast'), 'Chicken')) %>%
-    mutate(product=replace(product, str_detect(product, 'chicken'), 'Chicken')) %>% ### this might be a bit rough
-    mutate(product=replace(product, str_detect(product, 'wordfish'), 'Swordfish')) %>%
-    mutate(product=replace(product, str_detect(product, 'word fish'), 'Swordfish')) %>%
+    mutate_replace_product(
+      old_string='whole chicken', new_string='Chicken'
+      ) %>%
+    mutate_replace_product(
+      old_string='whole hens', new_string='Chicken'
+      ) %>%
+    mutate_replace_product(
+      old_string='whole broiler chicken', new_string='Chicken'
+      ) %>%
+    mutate_replace_product(
+      old_string='whole frozen chicken', new_string='Chicken'
+      ) %>%
+    mutate_replace_product(
+      old_string='whole raw chicken', new_string='Chicken'
+      ) %>%
+    mutate_replace_product(
+      old_string='whole fresh chicken', new_string='Chicken'
+      ) %>%
+    mutate_replace_product(
+      old_string='frozen whole eviscerated chicken', new_string='Chicken'
+      ) %>%  
+    mutate_replace_product(
+      old_string='Chicken - whole frozen', new_string='Chicken'
+      ) %>% 
+    mutate_replace_product(
+      old_string='chicken half breasts', new_string='Chicken'
+      ) %>% 
+    mutate_replace_product(
+      old_string='chicken breast', new_string='Chicken'
+      ) %>% 
+    mutate_replace_product(
+      old_string='chickenbreast', new_string='Chicken'
+      ) %>% 
+    mutate_replace_product(
+      old_string='chicken boneless skinless', new_string='Chicken'
+      ) %>% 
+    
+    mutate(product=replace(product, str_detect(product, 'swordfish'), 'Swordfish')) %>%
+    mutate(product=replace(product, str_detect(product, 'sword fish'), 'Swordfish')) %>%
     mutate(product=replace(product, str_detect(product, 'raw milk cheese'), 'Raw Milk Cheese')) %>%
     mutate(product=replace(product, str_detect(product, 'Raw Milk cheese'), 'Raw Milk Cheese')) %>%
     mutate(product=replace(product, str_detect(product, 'Raw milk cheese'), 'Raw Milk Cheese')) %>%
@@ -440,4 +458,4 @@ standardise_products <- function(data_frame){
   df <- df %>%
     dplyr::filter(product %in% products_selection)
   return(df)
-}
+  }
