@@ -326,10 +326,15 @@ standardise_products <- function(data_frame){
     mutate_replace_product(
       old_string='smoked wild salmon', new_string='Smoked Salmon'
       ) %>%
-    mutate(product=replace(product, str_detect(product, 'sesame seed'), 'Sesame Seeds')) %>%
-    mutate(product=replace(product, str_detect(product, 'Sesame seed'), 'Sesame Seeds')) %>%
-    mutate(product=replace(product, str_detect(product, 'hulled sesame'), 'Sesame Seeds')) %>%
-    mutate(product=replace(product, str_detect(product, 'sesam seed'), 'Sesame Seeds')) %>%
+    mutate_replace_product(
+      old_string='sesame seed', new_string='Sesame Seeds'
+      ) %>%
+    mutate_replace_product(
+      old_string='hulled sesame', new_string='Sesame Seeds'
+      ) %>%
+    mutate_replace_product(
+      old_string='sesam seed', new_string='Sesame Seeds'
+      ) %>%
     mutate(product=replace(product, str_detect(product, 'whole chicken'), 'Chicken')) %>%
     mutate(product=replace(product, str_detect(product, 'whole hens'), 'Chicken')) %>%
     mutate(product=replace(product, str_detect(product, 'whole broiler chicken'), 'Chicken')) %>%
