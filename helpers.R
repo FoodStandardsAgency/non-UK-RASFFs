@@ -269,34 +269,63 @@ standardise_products <- function(data_frame){
     mutate_replace_product(
       old_string='sweet almond grains', new_string='Almonds'
       ) %>%
-    mutate(product=replace(product, str_detect(product, 'smoked salmon'), 'Smoked Salmon')) %>%
-    mutate(product=replace(product, str_detect(product, 'salmon - smoked'), 'Smoked Salmon')) %>%
-    mutate(product=replace(product, str_detect(product, 'Salmon - smoked'), 'Smoked Salmon')) %>%
-    mutate(product=replace(product, str_detect(product, 'Salmon - smoked kodiak wild'), 'Smoked Salmon')) %>%
-    mutate(product=replace(product, str_detect(product, 'smoked Norwegian salmon'), 'Smoked Salmon')) %>%
-    mutate(product=replace(product, str_detect(product, 'smoked sliced salmon'), 'Smoked Salmon')) %>%
-    mutate(product=replace(product, str_detect(product, 'chilled smoked Norwegian salmon'), 'Smoked Salmon')) %>%
-    mutate(product=replace(product, str_detect(product, 'chilled smoked sliced salmon'), 'Smoked Salmon')) %>%
-    mutate(product=replace(product, str_detect(product, 'chilled smoked vacuum-packed salmon'), 'Smoked Salmon')) %>%
-    mutate(product=replace(product, str_detect(product, 'Salmon - smoked Atlantic'), 'Smoked Salmon')) %>%
-    mutate(product=replace(product, str_detect(product, 'smoked and graved salmon'), 'Smoked Salmon')) %>%
-    mutate(product=replace(product, str_detect(product, 'smoked and salted salmon'), 'Smoked Salmon')) %>%
-    mutate(product=replace(product, str_detect(product, 'smoked atlantic salmon'), 'Smoked Salmon')) %>%
-    mutate(product=replace(product, str_detect(product, 'Smoked salmon'), 'Smoked Salmon')) %>%
-    mutate(product=replace(product, str_detect(product, 'chilled smoked Norvegian salmon'), 'Smoked Salmon')) %>%
-    mutate(product=replace(product, str_detect(product, 'chilled smoked Scottish salmon'), 'Smoked Salmon')) %>%
-    mutate(product=replace(product, str_detect(product, 'frozen smoked vacuum packed salmon'), 'Smoked Salmon')) %>%
-    mutate(product=replace(product, str_detect(product, 'Salmon - fillets smoked scotch'), 'Smoked Salmon')) %>%
-    mutate(product=replace(product, str_detect(product, 'Salmon - Norwegian smoked'), 'Smoked Salmon')) %>%
-    mutate(product=replace(product, str_detect(product, 'Salmon - Sliced salmo salar smoked'), 'Smoked Salmon')) %>%
-    mutate(product=replace(product, str_detect(product, 'Salmon smoked'), 'Smoked Salmon')) %>%
-    mutate(product=replace(product, str_detect(product, 'Salmon smokes - (salmo salar)'), 'Smoked Salmon')) %>%
-    mutate(product=replace(product, str_detect(product, 'smoked Atlantic salmon'), 'Smoked Salmon')) %>%
-    mutate(product=replace(product, str_detect(product, 'smoked farmed salmon'), 'Smoked Salmon')) %>%
-    mutate(product=replace(product, str_detect(product, 'smoked organic atlantic salmon'), 'Smoked Salmon')) %>%
-    mutate(product=replace(product, str_detect(product, 'Smoked Salmon trimmings'), 'Smoked Salmon')) %>%
-    mutate(product=replace(product, str_detect(product, 'smoked wild salmon'), 'Smoked Salmon')) %>%
-    mutate(product=replace(product, str_detect(product, 'vacuum packed smoked Atlantic salmon'), 'Smoked Salmon')) %>%
+    mutate_replace_product(
+      old_string='smoked salmon', new_string='Smoked Salmon'
+      ) %>%
+    mutate_replace_product(
+      old_string='salmon smoked', new_string='Smoked Salmon'
+      ) %>%
+    mutate_replace_product(
+      old_string='salmon smokes', new_string='Smoked Salmon'
+      ) %>%
+    mutate_replace_product(
+      old_string='salmon - smoked', new_string='Smoked Salmon'
+      ) %>%
+    mutate_replace_product(
+      old_string='smoked Norwegian salmon', new_string='Smoked Salmon'
+      ) %>%
+    mutate_replace_product(
+      old_string='smoked sliced salmon', new_string='Smoked Salmon'
+      ) %>%
+    mutate_replace_product(
+      old_string='chilled smoked vacuum-packed salmon',
+      new_string='Smoked Salmon'
+      ) %>%
+    mutate_replace_product(
+      old_string='smoked atlantic salmon', new_string='Smoked Salmon'
+      ) %>%
+    mutate_replace_product(
+      old_string='Salmon - smoked Atlantic', new_string='Smoked Salmon'
+      ) %>%
+    mutate_replace_product(
+      old_string='smoked and graved salmon', new_string='Smoked Salmon'
+      ) %>%
+    mutate_replace_product(
+      old_string='smoked and salted salmon', new_string='Smoked Salmon'
+      ) %>%
+    mutate_replace_product(
+      old_string='chilled smoked Scottish salmon', new_string='Smoked Salmon'
+      ) %>%
+    mutate_replace_product(
+      old_string='frozen smoked vacuum packed salmon',
+      new_string='Smoked Salmon'
+      ) %>%
+    mutate_replace_product(
+      old_string='Salmon - fillets smoked scotch', new_string='Smoked Salmon'
+      ) %>%
+    mutate_replace_product(
+      old_string='Salmon - Sliced salmo salar smoked',
+      new_string='Smoked Salmon'
+      ) %>%
+    mutate_replace_product(
+      old_string='smoked farmed salmon', new_string='Smoked Salmon'
+      ) %>%
+    mutate_replace_product(
+      old_string='smoked organic atlantic salmon', new_string='Smoked Salmon'
+      ) %>%
+    mutate_replace_product(
+      old_string='smoked wild salmon', new_string='Smoked Salmon'
+      ) %>%
     mutate(product=replace(product, str_detect(product, 'sesame seed'), 'Sesame Seeds')) %>%
     mutate(product=replace(product, str_detect(product, 'Sesame seed'), 'Sesame Seeds')) %>%
     mutate(product=replace(product, str_detect(product, 'hulled sesame'), 'Sesame Seeds')) %>%
