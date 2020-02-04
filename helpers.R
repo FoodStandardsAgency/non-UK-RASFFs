@@ -491,10 +491,16 @@ standardise_products <- function(data_frame){
     mutate_replace_product(
       old_string='tuna', new_string='Tuna'
       ) %>%
+    mutate_replace_product(
+      old_string='beef', new_string='Beef'
+      ) %>%
+    mutate_replace_product(
+      old_string='rump steak', new_string='Beef'
+      ) %>%
+    mutate_replace_product(
+      old_string='black angus steak', new_string='Beef'
+      ) %>%
     
-    mutate(product=replace(product, str_detect(product, regex('beef', ignore_case=TRUE)), 'Beef')) %>%##  rough?
-    mutate(product=replace(product, str_detect(product, regex('rump steak', ignore_case=TRUE)), 'Beef')) %>% ##  rough?
-    mutate(product=replace(product, str_detect(product, regex('black angus steak', ignore_case=TRUE)), 'Beef')) %>% ##  rough?
     mutate(product=replace(product, str_detect(product, regex('pork', ignore_case=TRUE)), 'Pork')) %>% ## rough
     mutate(product=replace(product, str_detect(product, regex('pigeon', ignore_case=TRUE)), 'p_i_g_eon')) %>% ## rough
     mutate(product=replace(product, str_detect(product, regex('pig', ignore_case=TRUE)), 'Pork')) %>%
