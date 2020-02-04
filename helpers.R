@@ -452,9 +452,16 @@ standardise_products <- function(data_frame){
     mutate_replace_product(
       old_string='dried pitted apricot', new_string='Dried Apricot'
       ) %>%
-    mutate(product=replace(product, str_detect(product, regex('brazil nut', ignore_case=TRUE)), 'Brazil Nuts')) %>%
-    mutate(product=replace(product, str_detect(product, regex('brazilnut', ignore_case=TRUE)), 'Brazil Nuts')) %>%
-    mutate(product=replace(product, str_detect(product, regex('brazil nust', ignore_case=TRUE)), 'Brazil Nuts')) %>%
+    mutate_replace_product(
+      old_string='brazil nut', new_string='Brazil Nuts'
+      ) %>%
+    mutate_replace_product(
+      old_string='brazilnut', new_string='Brazil Nuts'
+      ) %>%
+    mutate_replace_product(
+      old_string='brazil nust', new_string='Brazil Nuts'
+      ) %>%
+
     mutate(product=replace(product, str_detect(product, regex('rice noodles', ignore_case=TRUE)), 'Rice Noodles')) %>%
     mutate(product=replace(product, str_detect(product, regex('rice spaghetti', ignore_case=TRUE)), 'Rice Noodles')) %>%
     mutate(product=replace(product, str_detect(product, regex('rice pasta', ignore_case=TRUE)), 'Rice Noodles')) %>%
