@@ -443,9 +443,15 @@ standardise_products <- function(data_frame){
       old_string='produced from raw milk',  # Historically only ever cheese.
       new_string='Raw Milk Cheese'
       ) %>%
-    mutate(product=replace(product, str_detect(product, regex('dried apricot', ignore_case=TRUE)), 'Dried Apricot')) %>%
-    mutate(product=replace(product, str_detect(product, regex('dried pitted apricot', ignore_case=TRUE)), 'Dried Apricot')) %>%
-    mutate(product=replace(product, str_detect(product, regex('dried and pitted apricot', ignore_case=TRUE)), 'Dried Apricot')) %>%
+    mutate_replace_product(
+      old_string='dried apricot', new_string='Dried Apricot'
+      ) %>%
+    mutate_replace_product(
+      old_string='dried and pitted apricot', new_string='Dried Apricot'
+      ) %>%
+    mutate_replace_product(
+      old_string='dried pitted apricot', new_string='Dried Apricot'
+      ) %>%
     mutate(product=replace(product, str_detect(product, regex('brazil nut', ignore_case=TRUE)), 'Brazil Nuts')) %>%
     mutate(product=replace(product, str_detect(product, regex('brazilnut', ignore_case=TRUE)), 'Brazil Nuts')) %>%
     mutate(product=replace(product, str_detect(product, regex('brazil nust', ignore_case=TRUE)), 'Brazil Nuts')) %>%
