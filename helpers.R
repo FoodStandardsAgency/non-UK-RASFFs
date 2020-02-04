@@ -500,11 +500,18 @@ standardise_products <- function(data_frame){
     mutate_replace_product(
       old_string='black angus steak', new_string='Beef'
       ) %>%
-    
-    mutate(product=replace(product, str_detect(product, regex('pork', ignore_case=TRUE)), 'Pork')) %>% ## rough
-    mutate(product=replace(product, str_detect(product, regex('pigeon', ignore_case=TRUE)), 'p_i_g_eon')) %>% ## rough
-    mutate(product=replace(product, str_detect(product, regex('pig', ignore_case=TRUE)), 'Pork')) %>%
-    mutate(product=replace(product, str_detect(product, regex('p_i_g_eon', ignore_case=TRUE)), 'pigeon'))
+    mutate_replace_product(
+      old_string='pork', new_string='Pork'
+      ) %>%
+    mutate_replace_product(
+      old_string='pigeon', new_string='p_igeon'
+      ) %>%
+    mutate_replace_product(
+      old_string='pig', new_string='Pork'
+      ) %>%
+    mutate_replace_product(
+      old_string='p_igeon', new_string='Pigeon'
+      )
   products_selection <- c('Peanuts',
                           'Pistachios',
                           'Dried Figs', 
@@ -523,7 +530,8 @@ standardise_products <- function(data_frame){
                           'Raisins',
                           'Tuna',
                           'Beef',
-                          'Pork'
+                          'Pork',
+                          'Pigeon'
                           )
   df <- df %>%
     dplyr::filter(product %in% products_selection)
