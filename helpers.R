@@ -376,45 +376,73 @@ standardise_products <- function(data_frame){
       ) %>% 
     mutate_replace_product(
       old_string='sword fish', new_string='Swordfish'
-    ) %>% 
-    mutate(product=replace(product, str_detect(product, 'raw milk cheese'), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, 'Raw Milk cheese'), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, 'Raw milk cheese'), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, 'raw milk reblochon'), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, "raw milk goat's cheese"), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, "raw milk sheep's cheeses"), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, 'raw milk sheep cheese'), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, 'raw milk camembert'), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, 'raw milk brie cheese'), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, "raw milk sheep's cheese"), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, 'raw milk Neufchâtel cheese'), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, 'organic raw milk camembert'), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, 'raw milk camembert cheese'), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, 'raw milk reblochon cheese'), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, 'chilled sheep cheese made from raw milk'), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, 'raw milk Reblochon'), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, 'cheese made from raw milk'), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, 'Cheese made from raw milk'), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, 'sliced raw milk camembert'), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, 'raw milk raclette cheese'), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, 'raw milk soft cheese'), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, "milk cheese made with raw milk"), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, 'chilled raw milk brie'), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, 'cheese from raw milk'), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, 'raw milk raclett'), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, 'camembert made from raw mil'), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, 'raw milk goat cheese'), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, "cow's milk cheese made"), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, "raw milk's cheese"), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, "raw milk's cheese"), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, "Camembert cheese made"), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, 'Cheese - made from raw milk'), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, 'Cheese produced with raw milk'), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, 'Cheese - semi-soft raw milk rind washed'), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, 'Cheese - raw milk'), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, 'soft cheese produced from raw milk'), 'Raw Milk Cheese')) %>%
-    mutate(product=replace(product, str_detect(product, "(produced from raw milk)"), 'Raw Milk Cheese')) %>% # is cheese-only
-    mutate(product=replace(product, str_detect(product, 'raw milk brie and camembert'), 'Raw Milk Cheese')) %>%
+      ) %>%
+    mutate_replace_product(
+      old_string='raw milk cheese', new_string='Raw Milk Cheese'
+      ) %>%
+    mutate_replace_product(
+      old_string="raw milk's cheese", new_string='Raw Milk Cheese'
+      ) %>%
+    mutate_replace_product(
+      old_string='cheese - made from raw milk', new_string='Raw Milk Cheese'
+      ) %>%
+    mutate_replace_product(
+      old_string='cheese - raw milk', new_string='Raw Milk Cheese'
+      ) %>%
+    mutate_replace_product(
+      old_string='cheese produced with raw milk', new_string='Raw Milk Cheese'
+      ) %>%
+    mutate_replace_product(
+      old_string="raw milk goat's cheese", new_string='Raw Milk Cheese'
+      ) %>%
+    mutate_replace_product(
+      old_string="raw milk sheep's cheese", new_string='Raw Milk Cheese'
+      ) %>%
+    mutate_replace_product(
+      old_string='raw milk sheep cheese', new_string='Raw Milk Cheese'
+      ) %>%
+    mutate_replace_product(
+      old_string="raw milk goat cheese", new_string='Raw Milk Cheese'
+      ) %>%
+    mutate_replace_product(
+      old_string='raw milk reblochon', new_string='Raw Milk Cheese'
+      ) %>%
+    mutate_replace_product(
+      old_string='raw milk camembert', new_string='Raw Milk Cheese'
+      ) %>%
+    mutate_replace_product(
+      old_string='raw milk brie', new_string='Raw Milk Cheese'
+      ) %>%
+    mutate_replace_product(
+      old_string='raw milk Neufchâtel', new_string='Raw Milk Cheese'
+      ) %>%
+    mutate_replace_product(
+      old_string='raw milk raclette', new_string='Raw Milk Cheese'
+      ) %>%
+    mutate_replace_product(
+      old_string='camembert made from raw mil', new_string='Raw Milk Cheese'
+      ) %>%
+    mutate_replace_product(
+      old_string='chilled sheep cheese made from raw milk', 
+      new_string='Raw Milk Cheese'
+      ) %>%
+    mutate_replace_product(
+      old_string='raw milk soft cheese', new_string='Raw Milk Cheese'
+      ) %>%
+    mutate_replace_product(
+      old_string="milk cheese made with raw milk", new_string='Raw Milk Cheese'
+      ) %>%
+    mutate_replace_product(
+      old_string='cheese from raw milk', new_string='Raw Milk Cheese'
+      ) %>%
+    mutate_replace_product(
+      old_string='Cheese - semi-soft raw milk rind washed',
+      new_string='Raw Milk Cheese'
+      ) %>%
+    mutate_replace_product(
+      old_string='produced from raw milk',  # Historically only ever cheese.
+      new_string='Raw Milk Cheese'
+      ) %>%
     mutate(product=replace(product, str_detect(product, regex('dried apricot', ignore_case=TRUE)), 'Dried Apricot')) %>%
     mutate(product=replace(product, str_detect(product, regex('dried pitted apricot', ignore_case=TRUE)), 'Dried Apricot')) %>%
     mutate(product=replace(product, str_detect(product, regex('dried and pitted apricot', ignore_case=TRUE)), 'Dried Apricot')) %>%
