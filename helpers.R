@@ -461,16 +461,34 @@ standardise_products <- function(data_frame){
     mutate_replace_product(
       old_string='brazil nust', new_string='Brazil Nuts'
       ) %>%
-
-    mutate(product=replace(product, str_detect(product, regex('rice noodles', ignore_case=TRUE)), 'Rice Noodles')) %>%
-    mutate(product=replace(product, str_detect(product, regex('rice spaghetti', ignore_case=TRUE)), 'Rice Noodles')) %>%
-    mutate(product=replace(product, str_detect(product, regex('rice pasta', ignore_case=TRUE)), 'Rice Noodles')) %>%
-    mutate(product=replace(product, str_detect(product, regex('rice vermicelli', ignore_case=TRUE)), 'Rice Noodles')) %>%
-    mutate(product=replace(product, str_detect(product, regex('vermicelli rice', ignore_case=TRUE)), 'Rice Noodles')) %>%
-    mutate(product=replace(product, str_detect(product, regex('rice macaroni', ignore_case=TRUE)), 'Rice Noodles')) %>%
-    mutate(product=replace(product, str_detect(product, regex('rice-flour noodles', ignore_case=TRUE)), 'Rice Noodles')) %>%
-    mutate(product=replace(product, str_detect(product, regex('organic brown rice ramen noodles', ignore_case=TRUE)), 'Rice Noodles')) %>%
+    mutate_replace_product(
+      old_string='rice noodles', new_string='Rice Noodles'
+      ) %>%
+    mutate_replace_product(
+      old_string='rice-flour noodles', new_string='Rice Noodles'
+      ) %>%
+    mutate_replace_product(
+      old_string='rice spaghetti', new_string='Rice Noodles'
+      ) %>%
+    mutate_replace_product(
+      old_string='rice pasta', new_string='Rice Noodles'
+      ) %>%
+    mutate_replace_product(
+      old_string='rice macaroni', new_string='Rice Noodles'
+      ) %>%
+    mutate_replace_product(
+      old_string='rice vermicelli', new_string='Rice Noodles'
+      ) %>%
+    mutate_replace_product(
+      old_string='vermicelli rice', new_string='Rice Noodles'
+      ) %>%
+    mutate_replace_product(
+      old_string='organic brown rice ramen noodles', new_string='Rice Noodles'
+      ) %>%
+    
+    
     mutate(product=replace(product, str_detect(product, regex('raisins', ignore_case=TRUE)), 'Raisins')) %>%
+    
     mutate(product=replace(product, str_detect(product, regex('tuna', ignore_case=TRUE)), 'Tuna')) %>%
     mutate(product=replace(product, str_detect(product, regex('beef', ignore_case=TRUE)), 'Beef')) %>%##  rough?
     mutate(product=replace(product, str_detect(product, regex('rump steak', ignore_case=TRUE)), 'Beef')) %>% ##  rough?
