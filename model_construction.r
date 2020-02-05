@@ -5,6 +5,7 @@ source('helpers.r')
 source('etl.r')
 # Load the data.
 df_features <- etl()
+alpha <- 30  ## Approximately what the previous estimates were.
 ## Create train and test sets.
 train_index <- base::sample(
   x=1:dim(df_features)[1], 
@@ -61,11 +62,11 @@ g_comparison <- estimates_vs_reality(
 g_comparison_plot <- plot_estimates_vs_reality(data_frame=g_comparison)
 g_comparison_plot
 # Hierarchical clustering
-hcluster <- bnlearn::hc(x=df_train)
-bnviewer::viewer(bayesianNetwork=hcluster)
+hc_dag <- bnlearn::hc(x=train_data)
+bnviewer::viewer(bayesianNetwork=hc_dag)
 alpha_hcluster <- bnlearn::alpha.star(x=hcluster, data=train_data)
 hcluster_fitted <- bnlearn::bn.fit(
-  x=hcluster,
+  x=hc_dag,
   data=train_data,
   method='bayes',
   iss=alpha_hcluster
@@ -86,17 +87,36 @@ hcluster_comparison_plot <- plot_estimates_vs_reality(
   data_frame=hcluster_comparison
   )
 hcluster_comparison_plot
+# Naive Bayes
+nb_dag <- bnlearn::naive.bayes(x=train_data, training='uk_rasff_soon')
+bnviewer::viewer(bayesianNetwork=nb_dag)
+nb_fitted <- bnlearn::bn.fit(
+  x=nb_dag,
+  data=train_data,
+  method='bayes',
+  iss=alpha
+  )
+nb_pred <- stats::predict(nb_fitted, data=test_data)
+caret::confusionMatrix(data=nb_pred, reference=test_data$uk_rasff_soon)
+nb_ps<- estimate_probabilities(
+  data_frame=test_data, bayesian_network=nb_fitted, predict_column=6
+  )
+nb_comparison <- estimates_vs_reality(
+  estimates=nb_ps, reality=test_data$uk_rasff_soon
+  )
+nb_comparison_plot <- plot_estimates_vs_reality(data_frame=nb_comparison)
+nb_comparison_plot
 # Tree-augmented naive Bayes
-tan <- bnlearn::tree.bayes(
+tan_dag <- bnlearn::tree.bayes(
   x=train_data, 
   training='uk_rasff_soon'
   )
-bnviewer::viewer(bayesianNetwork=tan)
+bnviewer::viewer(bayesianNetwork=tan_dag)
 tan_fitted <- bnlearn::bn.fit(
-  x=tan, 
+  x=tan_dag, 
   data=train_data,
   method='bayes',
-  iss=30
+  iss=alpha
   )
 tan_pred <- stats::predict(tan_fitted, data=test_data)
 caret::confusionMatrix(data=tan_pred, reference=test_data$uk_rasff_soon)
@@ -108,9 +128,10 @@ tan_comparison <- estimates_vs_reality(
   )
 tan_comparison_plot <- plot_estimates_vs_reality(data_frame=tan_comparison)
 tan_comparison_plot
-bnlearn::BF(num=tan, den=g, data=train_data, log=FALSE)
+## Exploration and comparison
+#bnlearn::BF(num=g, den=tan, data=train_data, log=FALSE)
+#bnlearn::BF(num=hcluster, den=g, data=train_data, log=FALSE)
 #tan_bf <- bnlearn::bf.strength(x=tan, data=train_data)
 #bnlearn::strength.plot(x=tan, strength=tan_bf, threshold=0.99)
 #g_bf <- bnlearn::bf.strength(x=g, data=train_data)
 #bnlearn::strength.plot(x=g, strength=g_bf, threshold=0.99)
-
