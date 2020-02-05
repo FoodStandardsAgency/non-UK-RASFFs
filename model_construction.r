@@ -3,7 +3,7 @@ library(bnviewer)
 library(caret)
 source('helpers.r')
 source('etl.r')
-
+# Load the data.
 df_features <- etl()
 ## Create train and test sets.
 train_index <- base::sample(
@@ -24,55 +24,79 @@ zero_inds <- base::sample(
   x=1:dim(df_test_0s)[1], size=dim(df_test_1s) * 1
   )
 df_test_usample= rbind(df_test_1s, df_test_0s[zero_inds,])
-## Manual structure based on expert knowledge.
-# g = bnlearn::empty.graph(nodes=names(df_features))
-# g = bnlearn::set.arc(x=g, from='month', to='origin_country')
-# g = bnlearn::set.arc(x=g, from='origin_country', to='product')
-# g = bnlearn::set.arc(x=g, from='product_category', to='product')
-# g = bnlearn::set.arc(x=g, from='product', to='hazard_type')
-# g = bnlearn::set.arc(x=g, from='hazard_type', to='hazard')
-# g = bnlearn::set.arc(x=g, from='product', to='dist_uk')
-# g = bnlearn::set.arc(x=g, from='dist_uk', to='notifying_country')
-# g = bnlearn::set.arc(x=g, from='notifying_country', to='uk_rasff_soon')
-# #g = bnlearn::set.arc(x=g, from='product', to='uk_rasff_soon')
-# g = bnlearn::set.arc(x=g, from='hazard', to='uk_rasff_soon')
-# bnviewer::viewer(bayesianNetwork=g)
-# # Exploring differnet iss values.
-# alpha <- bnlearn::alpha.star(x=g, data=df_train)
-# g_fitted = bnlearn::bn.fit(
-#   x=g, 
-#   data=df_train,
-#   method='bayes',
-#   iss=alpha
-#   )
-# g_pred <- stats::predict(
-#   g_fitted,
-#   node='uk_rasff_soon',
-#   data=df_test
-#   )
-# caret::confusionMatrix(data=g_pred, reference=df_test$uk_rasff_soon)
-#g_ps<- estimate_probabilities(
-#  data_frame=df_test, bayesian_network=g_fitted, predict_column=6
-#  )
-#g_comparison <- estimates_vs_reality(
-#  estimates=g_ps, reality=df_test$uk_rasff_soon
-#  )
-#g_comparison_plot <- plot_estimates_vs_reality(data_frame=g_comparison)
-#g_comparison_plot
-# Tree-augmented naive Bayes
 train_data <- df_train_usample
 test_data <- df_test_usample
-bn_tan <- bnlearn::tree.bayes(
+# Manual structure based on expert knowledge.
+g = bnlearn::empty.graph(nodes=names(df_features))
+g = bnlearn::set.arc(x=g, from='month', to='origin_country')
+g = bnlearn::set.arc(x=g, from='origin_country', to='product')
+g = bnlearn::set.arc(x=g, from='product_category', to='product')
+g = bnlearn::set.arc(x=g, from='product', to='hazard_type')
+g = bnlearn::set.arc(x=g, from='hazard_type', to='hazard')
+g = bnlearn::set.arc(x=g, from='product', to='dist_uk')
+g = bnlearn::set.arc(x=g, from='dist_uk', to='notifying_country')
+g = bnlearn::set.arc(x=g, from='notifying_country', to='uk_rasff_soon')
+#g = bnlearn::set.arc(x=g, from='product', to='uk_rasff_soon')
+g = bnlearn::set.arc(x=g, from='hazard', to='uk_rasff_soon')
+bnviewer::viewer(bayesianNetwork=g)
+alpha_g <- bnlearn::alpha.star(x=g, data=train_data)
+g_fitted = bnlearn::bn.fit(
+  x=g,
+  data=train_data,
+  method='bayes',
+  iss=alpha_g
+  )
+g_pred <- stats::predict(
+  g_fitted,
+  node='uk_rasff_soon',
+  data=test_data
+  )
+caret::confusionMatrix(data=g_pred, reference=test_data$uk_rasff_soon)
+g_ps<- estimate_probabilities(
+ data_frame=test_data, bayesian_network=g_fitted, predict_column=6
+ )
+g_comparison <- estimates_vs_reality(
+ estimates=g_ps, reality=test_data$uk_rasff_soon
+ )
+g_comparison_plot <- plot_estimates_vs_reality(data_frame=g_comparison)
+g_comparison_plot
+# Hierarchical clustering
+hcluster <- bnlearn::hc(x=df_train)
+bnviewer::viewer(bayesianNetwork=hcluster)
+alpha_hcluster <- bnlearn::alpha.star(x=hcluster, data=train_data)
+hcluster_fitted <- bnlearn::bn.fit(
+  x=hcluster,
+  data=train_data,
+  method='bayes',
+  iss=alpha_hcluster
+  )
+hcluster_pred <- stats::predict(
+  hcluster_fitted,
+  node='uk_rasff_soon',
+  data=test_data
+  )
+caret::confusionMatrix(data=hcluster_pred, reference=test_data$uk_rasff_soon)
+hcluster_ps<- estimate_probabilities(
+  data_frame=test_data, bayesian_network=hcluster_fitted, predict_column=6
+  )
+hcluster_comparison <- estimates_vs_reality(
+  estimates=hcluster_ps, reality=test_data$uk_rasff_soon
+  )
+hcluster_comparison_plot <- plot_estimates_vs_reality(
+  data_frame=hcluster_comparison
+  )
+hcluster_comparison_plot
+# Tree-augmented naive Bayes
+tan <- bnlearn::tree.bayes(
   x=train_data, 
   training='uk_rasff_soon'
   )
-bnviewer::viewer(bayesianNetwork=bn_tan)
-alpha <- 25
+bnviewer::viewer(bayesianNetwork=tan)
 tan_fitted <- bnlearn::bn.fit(
-  x=bn_tan, 
+  x=tan, 
   data=train_data,
   method='bayes',
-  iss=alpha
+  iss=30
   )
 tan_pred <- stats::predict(tan_fitted, data=test_data)
 caret::confusionMatrix(data=tan_pred, reference=test_data$uk_rasff_soon)
@@ -84,5 +108,9 @@ tan_comparison <- estimates_vs_reality(
   )
 tan_comparison_plot <- plot_estimates_vs_reality(data_frame=tan_comparison)
 tan_comparison_plot
-#tan_bf <- bnlearn::bf.strength(x=bn_tan, data=train_data)
-#bnlearn::strength.plot(x=bn_tan, strength=tan_bf, threshold=0.99)
+bnlearn::BF(num=tan, den=g, data=train_data, log=FALSE)
+#tan_bf <- bnlearn::bf.strength(x=tan, data=train_data)
+#bnlearn::strength.plot(x=tan, strength=tan_bf, threshold=0.99)
+#g_bf <- bnlearn::bf.strength(x=g, data=train_data)
+#bnlearn::strength.plot(x=g, strength=g_bf, threshold=0.99)
+
