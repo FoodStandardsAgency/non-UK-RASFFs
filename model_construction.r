@@ -64,7 +64,7 @@ g_comparison_plot
 # Hierarchical clustering
 hc_dag <- bnlearn::hc(x=train_data)
 bnviewer::viewer(bayesianNetwork=hc_dag)
-alpha_hcluster <- bnlearn::alpha.star(x=hcluster, data=train_data)
+alpha_hcluster <- bnlearn::alpha.star(x=hc_dag, data=train_data)
 hcluster_fitted <- bnlearn::bn.fit(
   x=hc_dag,
   data=train_data,
@@ -135,3 +135,4 @@ tan_comparison_plot
 #bnlearn::strength.plot(x=tan, strength=tan_bf, threshold=0.99)
 #g_bf <- bnlearn::bf.strength(x=g, data=train_data)
 #bnlearn::strength.plot(x=g, strength=g_bf, threshold=0.99)
+#bnlearn::BF(num=hc_dag, den=tan_dag, data=train_data, log=FALSE)
