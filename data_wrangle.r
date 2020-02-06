@@ -2,7 +2,7 @@ library(tidyverse)
 library(lubridate)
 source('helpers.r')
 
-etl <- function(){
+data_wrangle <- function(){
   # Number of days considered to be the near-term.
   days <- 28
   # Load the data.
