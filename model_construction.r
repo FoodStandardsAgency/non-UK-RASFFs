@@ -4,7 +4,7 @@ library(caret)
 source('helpers.r')
 source('data_wrangle.r')
 # Load the data.
-df_features <- etl()
+df_features <- data_wrangle()
 alpha <- 30  ## Approximately what the previous estimates were.
 ## Create train and test sets.
 train_index <- base::sample(
