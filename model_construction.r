@@ -2,7 +2,7 @@ library(bnlearn)
 library(bnviewer)
 library(caret)
 source('helpers.r')
-source('etl.r')
+source('data_wrangle.r')
 # Load the data.
 df_features <- etl()
 alpha <- 30  ## Approximately what the previous estimates were.
@@ -64,29 +64,29 @@ g_comparison_plot
 # Hierarchical clustering
 hc_dag <- bnlearn::hc(x=train_data)
 bnviewer::viewer(bayesianNetwork=hc_dag)
-alpha_hcluster <- bnlearn::alpha.star(x=hc_dag, data=train_data)
-hcluster_fitted <- bnlearn::bn.fit(
+alpha_hc <- bnlearn::alpha.star(x=hc_dag, data=train_data)
+hc_fitted <- bnlearn::bn.fit(
   x=hc_dag,
   data=train_data,
   method='bayes',
-  iss=alpha_hcluster
+  iss=alpha_hc
   )
-hcluster_pred <- stats::predict(
-  hcluster_fitted,
+hc_pred <- stats::predict(
+  hc_fitted,
   node='uk_rasff_soon',
   data=test_data
   )
-caret::confusionMatrix(data=hcluster_pred, reference=test_data$uk_rasff_soon)
-hcluster_ps<- estimate_probabilities(
-  data_frame=test_data, bayesian_network=hcluster_fitted, predict_column=6
+caret::confusionMatrix(data=hc_pred, reference=test_data$uk_rasff_soon)
+hc_ps<- estimate_probabilities(
+  data_frame=test_data, bayesian_network=hc_fitted, predict_column=6
   )
-hcluster_comparison <- estimates_vs_reality(
-  estimates=hcluster_ps, reality=test_data$uk_rasff_soon
+hc_comparison <- estimates_vs_reality(
+  estimates=hc_ps, reality=test_data$uk_rasff_soon
   )
-hcluster_comparison_plot <- plot_estimates_vs_reality(
-  data_frame=hcluster_comparison
+hc_comparison_plot <- plot_estimates_vs_reality(
+  data_frame=hc_comparison
   )
-hcluster_comparison_plot
+hc_comparison_plot
 # Naive Bayes
 nb_dag <- bnlearn::naive.bayes(x=train_data, training='uk_rasff_soon')
 bnviewer::viewer(bayesianNetwork=nb_dag)
